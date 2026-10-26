@@ -174,88 +174,139 @@
   <!-- MAIN CONTENT CONTAINER -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
 
-    <!-- NEW SECTION: INTERACTIVE 3D KNEE ANATOMY VIEWER -->
+    <!-- NEW SECTION: INTERACTIVE 3D KNEE ANATOMY VIEWER (SIDE BY SIDE: HEALTHY VS REKHA'S KNEE) -->
     <section id="viewer3d" class="scroll-mt-20">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-6">
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
-            Interactive 3D Anatomy Model
+            Interactive 3D Anatomy Comparison
           </span>
           <h3 class="text-2xl sm:text-3xl font-heading font-bold text-slate-900 mt-2">
-            Rotate & Inspect Your Right Knee in 3D
+            Side-by-Side 3D Knee Anatomy: Healthy vs. Rekha's Findings
           </h3>
           <p class="text-slate-500 text-sm mt-1">
-            Drag with your finger or mouse to rotate 360°, scroll to zoom in/out, and toggle between <strong>Healthy Normal</strong> vs <strong>Rekha's MRI Findings</strong>.
+            Compare a normal healthy knee directly against Rekha's right knee MRI findings. Both models are <strong>synchronized</strong>: drag with your finger or mouse on either model to rotate both 360° simultaneously!
           </p>
         </div>
 
-        <!-- Mode Toggle Controls -->
-        <div class="mt-4 md:mt-0 flex items-center p-1 bg-slate-200/80 rounded-2xl">
-          <button id="btnHealthy" onclick="setViewerMode('healthy')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 transition">
-            Healthy Knee
+        <!-- Sync Camera Quick Focus Buttons -->
+        <div class="mt-4 md:mt-0 flex items-center gap-2 flex-wrap">
+          <button onclick="focusBothStructures('front')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 shadow-sm transition">
+            Front View (Patella)
           </button>
-          <button id="btnFindings" onclick="setViewerMode('findings')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow-md transition flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-            Rekha's MRI Highlights
+          <button onclick="focusBothStructures('medial')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 shadow-sm transition">
+            Inner View (Meniscus)
+          </button>
+          <button onclick="focusBothStructures('lateral')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 shadow-sm transition">
+            Outer View
+          </button>
+          <button onclick="resetBothCameras()" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition">
+            Reset 3D
           </button>
         </div>
       </div>
 
-      <!-- 3D Viewer Container Card -->
-      <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-indigo-950 rounded-3xl p-4 sm:p-6 shadow-2xl border border-slate-800 relative overflow-hidden">
-        
-        <!-- Live status bar overlay inside 3D viewer -->
-        <div class="absolute top-6 left-6 z-10 flex flex-wrap gap-2 pointer-events-none">
-          <span id="viewerBadge" class="bg-amber-500/90 text-slate-900 font-bold text-xs px-3 py-1.5 rounded-xl shadow-lg backdrop-blur-md">
-            Showing: Rekha's MRI Issues (Highlighted in Amber/Red)
-          </span>
-          <span class="bg-slate-800/80 text-slate-300 text-xs px-3 py-1.5 rounded-xl border border-slate-700 backdrop-blur-md">
-            Click & Drag to Rotate 360° • Pinch / Scroll to Zoom
-          </span>
+      <!-- Side-by-Side 3D Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- LEFT CARD: HEALTHY KNEE 3D -->
+        <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-emerald-950 rounded-3xl p-5 shadow-xl border border-emerald-900/50 flex flex-col justify-between relative overflow-hidden">
+          <div>
+            <div class="flex items-center justify-between mb-3 pb-3 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                <h4 class="font-heading font-bold text-emerald-300 text-lg sm:text-xl">Healthy Normal Knee</h4>
+              </div>
+              <span class="text-[11px] font-semibold bg-emerald-900/60 text-emerald-200 border border-emerald-700/60 px-2.5 py-1 rounded-lg">
+                Intact Reference
+              </span>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="w-full h-[360px] sm:h-[420px] rounded-2xl overflow-hidden relative cursor-grab active:cursor-grabbing bg-slate-950/70">
+              <canvas id="healthyCanvas" class="w-full h-full perspective-canvas block"></canvas>
+              <div id="loaderHealthy" class="absolute inset-0 flex items-center justify-center bg-slate-900/80 text-white text-xs font-semibold">
+                Loading Healthy Model...
+              </div>
+              <div class="absolute top-3 left-3 pointer-events-none">
+                <span class="bg-slate-900/80 text-emerald-300 text-[11px] px-2.5 py-1 rounded-lg border border-emerald-800/60 backdrop-blur-md">
+                  Rotates in Sync • Zoomable
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature Breakdown Key -->
+          <div class="mt-4 pt-3 border-t border-slate-800/80 space-y-1.5 text-xs text-slate-300">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-emerald-400 shrink-0"></span>
+              <span><strong>Medial Meniscus:</strong> Solid, unbroken rubbery cushion; zero tears.</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-sky-300 shrink-0"></span>
+              <span><strong>Patellar Cartilage:</strong> Thick 3-4mm smooth gliding layer on entire underside.</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-yellow-200 shrink-0"></span>
+              <span><strong>Fat Pad & Bursa:</strong> Normal soft fatty cushion; flat non-inflamed bursa.</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Structure quick-jump buttons -->
-        <div class="absolute bottom-6 left-6 right-6 z-10 flex items-center justify-center gap-2 flex-wrap">
-          <button onclick="focusStructure('front')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 backdrop-blur-md transition">
-            Front (Patella & Bursa)
-          </button>
-          <button onclick="focusStructure('medial')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 backdrop-blur-md transition">
-            Inner Side (Meniscus Tear & MCL)
-          </button>
-          <button onclick="focusStructure('lateral')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 backdrop-blur-md transition">
-            Outer Side (Healthy Lateral)
-          </button>
-          <button onclick="reset3DCamera()" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600/90 hover:bg-indigo-500 text-white border border-indigo-400 backdrop-blur-md transition">
-            Reset View
-          </button>
+        <!-- RIGHT CARD: REKHA'S MRI FINDINGS 3D -->
+        <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-amber-950 rounded-3xl p-5 shadow-xl border border-amber-900/50 flex flex-col justify-between relative overflow-hidden">
+          <div>
+            <div class="flex items-center justify-between mb-3 pb-3 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-amber-400 animate-pulse"></span>
+                <h4 class="font-heading font-bold text-amber-300 text-lg sm:text-xl">Rekha's Right Knee (MRI Findings)</h4>
+              </div>
+              <span class="text-[11px] font-semibold bg-amber-900/60 text-amber-200 border border-amber-700/60 px-2.5 py-1 rounded-lg">
+                Rehab Target Areas
+              </span>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="w-full h-[360px] sm:h-[420px] rounded-2xl overflow-hidden relative cursor-grab active:cursor-grabbing bg-slate-950/70">
+              <canvas id="rekhaCanvas" class="w-full h-full perspective-canvas block"></canvas>
+              <div id="loaderRekha" class="absolute inset-0 flex items-center justify-center bg-slate-900/80 text-white text-xs font-semibold">
+                Loading Rekha's Findings Model...
+              </div>
+              <div class="absolute top-3 left-3 pointer-events-none">
+                <span class="bg-slate-900/80 text-amber-300 text-[11px] px-2.5 py-1 rounded-lg border border-amber-800/60 backdrop-blur-md">
+                  Issues Highlighted in Red/Orange
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature Breakdown Key -->
+          <div class="mt-4 pt-3 border-t border-slate-800/80 space-y-1.5 text-xs text-slate-300">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-red-500 animate-pulse shrink-0"></span>
+              <span><strong>Medial Meniscus:</strong> Horizontal tear line (posterior horn) with surrounding fluid.</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-orange-400 shrink-0"></span>
+              <span><strong>Kneecap Cartilage:</strong> Grade 4 parapatellar groove wear (gliding needs VMO support).</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-rose-400 shrink-0"></span>
+              <span><strong>Bursitis & Fat Pad:</strong> Distended fluid in front of patella & mild oedema under tendon.</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Canvas element for Three.js -->
-        <div class="w-full h-[440px] sm:h-[500px] rounded-2xl overflow-hidden relative cursor-grab active:cursor-grabbing">
-          <canvas id="kneeCanvas" class="w-full h-full perspective-canvas block"></canvas>
-          <div id="canvasLoader" class="absolute inset-0 flex items-center justify-center bg-slate-900/80 text-white text-sm font-semibold">
-            Loading 3D Anatomy Engine...
-          </div>
-        </div>
+      </div>
 
-        <!-- 3D Legend & Key -->
-        <div class="mt-4 pt-4 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-slate-300">
-          <div class="flex items-center gap-2">
-            <span class="w-3.5 h-3.5 rounded-md bg-[#e2e8f0] border border-slate-400 shrink-0"></span>
-            <span>Femur / Thigh Bone</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="w-3.5 h-3.5 rounded-md bg-[#cbd5e1] border border-slate-400 shrink-0"></span>
-            <span>Tibia / Shin Bone</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="w-3.5 h-3.5 rounded-md bg-[#f59e0b] border border-amber-300 shrink-0"></span>
-            <span class="font-medium text-amber-300">Medial Meniscus (Tear Zone)</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="w-3.5 h-3.5 rounded-md bg-[#ef4444] border border-red-300 shrink-0"></span>
-            <span class="font-medium text-rose-300">Patella Wear / Bursitis</span>
-          </div>
+      <!-- Synchronized 3D Tip Banner -->
+      <div class="mt-4 bg-slate-100 rounded-2xl p-3.5 border border-slate-200 text-xs text-slate-600 flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span><strong>Interactive Synchronized Rotation:</strong> Dragging either model automatically rotates the other so you can examine the exact same angle on both sides simultaneously.</span>
+        </div>
+        <div class="text-[11px] text-slate-400 font-medium">
+          Zoom: Mouse wheel or two-finger pinch
         </div>
       </div>
     </section>
@@ -1213,95 +1264,129 @@
   <!-- THREE.JS 3D KNEE ENGINE & APP SCRIPTS -->
   <script>
     // ----------------------------------------------------
-    // THREE.JS 3D KNEE ANATOMY ENGINE
+    // DUAL SYNCHRONIZED 3D KNEE ENGINE (HEALTHY & REKHA)
     // ----------------------------------------------------
-    let scene, camera, renderer, controls;
-    let kneeGroup;
-    let femurMesh, tibiaMesh, fibulaMesh, patellaMesh;
-    let medialMeniscus, lateralMeniscus;
-    let mclMesh, lclMesh, aclMesh, pclMesh;
-    let hoffaFatPad, prepatellarBursa;
-    let tearHighlight, chondrolysisHighlight;
-    let currentMode = 'findings'; // 'findings' or 'healthy'
+    let sceneHealthy, cameraHealthy, rendererHealthy, controlsHealthy;
+    let sceneRekha, cameraRekha, rendererRekha, controlsRekha;
+    let tearHighlightRekha, chondrolysisHighlightRekha;
+    let isSyncingCamera = false;
 
-    function init3DViewer() {
-      const container = document.getElementById('kneeCanvas');
-      if (!container) return;
+    function initDual3DViewers() {
+      // 1. Initialize Healthy Knee Viewer
+      const canvasHealthy = document.getElementById('healthyCanvas');
+      if (canvasHealthy) {
+        const w = canvasHealthy.clientWidth;
+        const h = canvasHealthy.clientHeight;
 
-      const width = container.clientWidth;
-      const height = container.clientHeight;
+        sceneHealthy = new THREE.Scene();
+        sceneHealthy.background = new THREE.Color(0x061412); // Deep forest anatomical tint
 
-      // 1. Scene setup
-      scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x0a0f1d); // Deep anatomical dark blue
+        cameraHealthy = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+        cameraHealthy.position.set(4, 2, 7);
 
-      // 2. Camera setup
-      camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-      camera.position.set(4, 2, 7);
+        rendererHealthy = new THREE.WebGLRenderer({ canvas: canvasHealthy, antialias: true });
+        rendererHealthy.setSize(w, h);
+        rendererHealthy.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-      // 3. Renderer setup
-      renderer = new THREE.WebGLRenderer({ canvas: container, antialias: true });
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.shadowMap.enabled = true;
+        controlsHealthy = new THREE.OrbitControls(cameraHealthy, rendererHealthy.domElement);
+        controlsHealthy.enableDamping = true;
+        controlsHealthy.dampingFactor = 0.05;
+        controlsHealthy.maxDistance = 14;
+        controlsHealthy.minDistance = 3;
+        controlsHealthy.target.set(0, 0, 0);
 
-      // 4. OrbitControls
-      controls = new THREE.OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true;
-      controls.dampingFactor = 0.05;
-      controls.maxDistance = 15;
-      controls.minDistance = 3;
-      controls.target.set(0, 0, 0);
+        setupLights(sceneHealthy);
+        buildKneeModel(sceneHealthy, false); // false = healthy model
 
-      // 5. Lighting
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-      scene.add(ambientLight);
+        const loaderH = document.getElementById('loaderHealthy');
+        if (loaderH) loaderH.style.display = 'none';
+      }
+
+      // 2. Initialize Rekha's Findings Viewer
+      const canvasRekha = document.getElementById('rekhaCanvas');
+      if (canvasRekha) {
+        const w = canvasRekha.clientWidth;
+        const h = canvasRekha.clientHeight;
+
+        sceneRekha = new THREE.Scene();
+        sceneRekha.background = new THREE.Color(0x130e06); // Deep warm amber anatomical tint
+
+        cameraRekha = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+        cameraRekha.position.set(4, 2, 7);
+
+        rendererRekha = new THREE.WebGLRenderer({ canvas: canvasRekha, antialias: true });
+        rendererRekha.setSize(w, h);
+        rendererRekha.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        controlsRekha = new THREE.OrbitControls(cameraRekha, rendererRekha.domElement);
+        controlsRekha.enableDamping = true;
+        controlsRekha.dampingFactor = 0.05;
+        controlsRekha.maxDistance = 14;
+        controlsRekha.minDistance = 3;
+        controlsRekha.target.set(0, 0, 0);
+
+        setupLights(sceneRekha);
+        buildKneeModel(sceneRekha, true); // true = Rekha's findings model
+
+        const loaderR = document.getElementById('loaderRekha');
+        if (loaderR) loaderR.style.display = 'none';
+      }
+
+      // 3. Setup Synchronized Controls (Rotating either model rotates both!)
+      if (controlsHealthy && controlsRekha) {
+        controlsHealthy.addEventListener('change', () => {
+          if (isSyncingCamera) return;
+          isSyncingCamera = true;
+          cameraRekha.position.copy(cameraHealthy.position);
+          cameraRekha.rotation.copy(cameraHealthy.rotation);
+          controlsRekha.target.copy(controlsHealthy.target);
+          controlsRekha.update();
+          isSyncingCamera = false;
+        });
+
+        controlsRekha.addEventListener('change', () => {
+          if (isSyncingCamera) return;
+          isSyncingCamera = true;
+          cameraHealthy.position.copy(cameraRekha.position);
+          cameraHealthy.rotation.copy(cameraRekha.rotation);
+          controlsHealthy.target.copy(controlsRekha.target);
+          controlsHealthy.update();
+          isSyncingCamera = false;
+        });
+      }
+
+      window.addEventListener('resize', onDualResize);
+      animateDual();
+    }
+
+    // Common Lighting Setup
+    function setupLights(targetScene) {
+      const ambient = new THREE.AmbientLight(0xffffff, 0.75);
+      targetScene.add(ambient);
 
       const mainLight = new THREE.DirectionalLight(0xffffff, 0.9);
       mainLight.position.set(6, 10, 8);
-      scene.add(mainLight);
+      targetScene.add(mainLight);
 
-      const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.5);
+      const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.45);
       rimLight.position.set(-6, -4, -6);
-      scene.add(rimLight);
-
-      // 6. Build Anatomical Model
-      kneeGroup = new THREE.Group();
-      scene.add(kneeGroup);
-
-      buildBones();
-      buildMenisci();
-      buildLigaments();
-      buildSoftTissues();
-
-      // Hide loading overlay
-      const loader = document.getElementById('canvasLoader');
-      if (loader) loader.style.display = 'none';
-
-      // Window resize handler
-      window.addEventListener('resize', onWindowResize);
-
-      // Apply initial findings highlight
-      setViewerMode('findings');
-
-      // Start animation loop
-      animate();
+      targetScene.add(rimLight);
     }
 
-    // Anatomical Bones Construction
-    function buildBones() {
+    // Modular Knee Builder (Handles both Healthy and Rekha Findings)
+    function buildKneeModel(targetScene, isRekha) {
+      const kneeGroup = new THREE.Group();
+      targetScene.add(kneeGroup);
+
       const boneMat = new THREE.MeshStandardMaterial({
         color: 0xedebe6,
         roughness: 0.35,
         metalness: 0.05,
       });
 
-      // Femur (Thigh bone) - Upper shaft & double condyles
+      // 1. FEMUR (Thigh Bone)
       const femurGroup = new THREE.Group();
-      
-      // Shaft
-      const shaftGeo = new THREE.CylinderGeometry(0.7, 0.85, 3.2, 32);
-      const shaft = new THREE.Mesh(shaftGeo, boneMat);
+      const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.85, 3.2, 32), boneMat);
       shaft.position.y = 2.4;
       femurGroup.add(shaft);
 
@@ -1319,274 +1404,257 @@
       latCond.position.set(0.75, 0.9, 0);
       femurGroup.add(latCond);
 
-      // Femoral Trochlear Groove (where patella slides)
-      const trochleaGeo = new THREE.BoxGeometry(0.5, 1.2, 0.2);
-      const trochlea = new THREE.Mesh(trochleaGeo, boneMat);
+      // Femoral Trochlea
+      const trochlea = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.2, 0.2), boneMat);
       trochlea.position.set(0, 1.1, 0.8);
       femurGroup.add(trochlea);
+      kneeGroup.add(femurGroup);
 
-      femurMesh = femurGroup;
-      kneeGroup.add(femurMesh);
-
-      // Tibia (Shin bone) - Lower plateau & shaft
+      // 2. TIBIA & FIBULA (Shin Bones)
       const tibiaGroup = new THREE.Group();
-      
-      // Tibial Plateau (Flat shelf)
       const platGeo = new THREE.CylinderGeometry(1.6, 1.4, 0.6, 32);
       platGeo.scale(1.2, 1, 1);
       const plateau = new THREE.Mesh(platGeo, boneMat);
       plateau.position.y = -0.6;
       tibiaGroup.add(plateau);
 
-      // Tibia Shaft
-      const tibShaftGeo = new THREE.CylinderGeometry(0.8, 0.65, 3.2, 32);
-      const tibShaft = new THREE.Mesh(tibShaftGeo, boneMat);
+      const tibShaft = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.65, 3.2, 32), boneMat);
       tibShaft.position.set(0, -2.4, 0);
       tibiaGroup.add(tibShaft);
 
-      // Fibula (Outer thin bone)
+      // Fibula
       const fibMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.4 });
-      const fibHeadGeo = new THREE.SphereGeometry(0.35, 16, 16);
-      const fibHead = new THREE.Mesh(fibHeadGeo, fibMat);
+      const fibHead = new THREE.Mesh(new THREE.SphereGeometry(0.35, 16, 16), fibMat);
       fibHead.position.set(1.5, -0.9, -0.2);
       tibiaGroup.add(fibHead);
 
-      const fibShaftGeo = new THREE.CylinderGeometry(0.2, 0.18, 2.6, 16);
-      const fibShaft = new THREE.Mesh(fibShaftGeo, fibMat);
+      const fibShaft = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.18, 2.6, 16), fibMat);
       fibShaft.position.set(1.5, -2.3, -0.2);
       tibiaGroup.add(fibShaft);
+      kneeGroup.add(tibiaGroup);
 
-      tibiaMesh = tibiaGroup;
-      kneeGroup.add(tibiaMesh);
-
-      // Patella (Kneecap)
+      // 3. PATELLA (Kneecap)
       const patellaGeo = new THREE.SphereGeometry(0.55, 24, 24);
       patellaGeo.scale(1.1, 1.25, 0.4);
-      patellaMesh = new THREE.Mesh(patellaGeo, boneMat);
+      const patellaMesh = new THREE.Mesh(patellaGeo, boneMat);
       patellaMesh.position.set(0, 1.1, 1.2);
       kneeGroup.add(patellaMesh);
-    }
 
-    // Menisci Construction (Medial & Lateral Cushions)
-    function buildMenisci() {
-      // Healthy cartilage material
-      const normalCartilageMat = new THREE.MeshStandardMaterial({
-        color: 0x6ee7b7, // Healthy emerald green
-        roughness: 0.2,
-        metalness: 0.1,
-      });
-
-      // Medial Meniscus (C-Shaped inner cushion)
-      // Represented by a curved torus segment on tibial plateau
-      const medMenGeo = new THREE.TorusGeometry(0.88, 0.22, 16, 32, Math.PI * 1.05);
-      medMenGeo.rotateX(Math.PI / 2);
-      medMenGeo.rotateZ(Math.PI / 2);
-      medialMeniscus = new THREE.Mesh(medMenGeo, normalCartilageMat.clone());
-      medialMeniscus.position.set(-0.65, -0.25, 0);
-      kneeGroup.add(medialMeniscus);
-
-      // Horizontal Tear Mesh (Split indicator on medial posterior horn)
-      const tearGeo = new THREE.BoxGeometry(0.45, 0.08, 0.4);
-      const tearMat = new THREE.MeshStandardMaterial({
-        color: 0xef4444, // Red tear line
-        emissive: 0xb91c1c,
-        emissiveIntensity: 0.8,
-        roughness: 0.1
-      });
-      tearHighlight = new THREE.Mesh(tearGeo, tearMat);
-      tearHighlight.position.set(-0.85, -0.25, -0.3); // In posterior horn
-      kneeGroup.add(tearHighlight);
-
-      // Lateral Meniscus (Outer cushion - Intact & Healthy)
-      const latMenGeo = new THREE.TorusGeometry(0.75, 0.2, 16, 32, Math.PI * 1.15);
-      latMenGeo.rotateX(Math.PI / 2);
-      latMenGeo.rotateZ(-Math.PI / 2);
-      lateralMeniscus = new THREE.Mesh(latMenGeo, normalCartilageMat);
-      lateralMeniscus.position.set(0.65, -0.25, 0);
-      kneeGroup.add(lateralMeniscus);
-    }
-
-    // Ligaments Construction
-    function buildLigaments() {
+      // 4. LIGAMENTS (MCL, LCL, ACL, Tendon)
       const ligMat = new THREE.MeshStandardMaterial({
-        color: 0xdbeafe,
+        color: isRekha ? 0x93c5fd : 0xdbeafe,
         roughness: 0.3
       });
 
-      // MCL (Medial Collateral Ligament - Inner band)
+      // MCL
       const mclGeo = new THREE.CylinderGeometry(0.14, 0.16, 2.4, 16);
       mclGeo.scale(0.6, 1, 1.2);
-      mclMesh = new THREE.Mesh(mclGeo, ligMat.clone());
-      mclMesh.position.set(-1.42, 0.15, 0);
-      kneeGroup.add(mclMesh);
+      const mcl = new THREE.Mesh(mclGeo, ligMat);
+      mcl.position.set(-1.42, 0.15, 0);
+      kneeGroup.add(mcl);
 
-      // LCL (Lateral Collateral Ligament - Outer cord)
-      const lclGeo = new THREE.CylinderGeometry(0.12, 0.12, 2.2, 16);
-      lclMesh = new THREE.Mesh(lclGeo, ligMat);
-      lclMesh.position.set(1.45, 0.1, -0.1);
-      lclMesh.rotation.z = -0.15;
-      kneeGroup.add(lclMesh);
+      // LCL
+      const lcl = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 2.2, 16), ligMat);
+      lcl.position.set(1.45, 0.1, -0.1);
+      lcl.rotation.z = -0.15;
+      kneeGroup.add(lcl);
 
-      // Cruciates: ACL & PCL (Internal stabilizing cords)
-      const aclGeo = new THREE.CylinderGeometry(0.12, 0.12, 1.4, 16);
-      aclMesh = new THREE.Mesh(aclGeo, new THREE.MeshStandardMaterial({ color: 0x93c5fd }));
-      aclMesh.position.set(0, 0.3, 0);
-      aclMesh.rotation.set(0.4, 0, -0.5);
-      kneeGroup.add(aclMesh);
+      // ACL
+      const acl = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 1.4, 16), new THREE.MeshStandardMaterial({ color: 0x93c5fd }));
+      acl.position.set(0, 0.3, 0);
+      acl.rotation.set(0.4, 0, -0.5);
+      kneeGroup.add(acl);
 
-      // Patellar Tendon (Kneecap to Shin)
+      // Patellar Tendon
       const patTendonGeo = new THREE.CylinderGeometry(0.2, 0.24, 1.3, 16);
       patTendonGeo.scale(1.4, 1, 0.5);
       const patTendon = new THREE.Mesh(patTendonGeo, ligMat);
       patTendon.position.set(0, 0.15, 1.05);
       kneeGroup.add(patTendon);
-    }
 
-    // Soft Tissues (Hoffa's Fat Pad & Prepatellar Bursa)
-    function buildSoftTissues() {
-      // Hoffa's Infrapatellar Fat Pad (Behind & under patellar tendon)
-      const fatGeo = new THREE.SphereGeometry(0.4, 20, 20);
-      fatGeo.scale(1.2, 0.8, 1);
-      hoffaFatPad = new THREE.Mesh(fatGeo, new THREE.MeshStandardMaterial({
-        color: 0xfef08a,
-        roughness: 0.5,
-        transparent: true,
-        opacity: 0.85
-      }));
-      hoffaFatPad.position.set(0, 0.2, 0.7);
-      kneeGroup.add(hoffaFatPad);
+      // 5. MENISCI (Medial & Lateral)
+      if (!isRekha) {
+        // HEALTHY MODEL: Fresh emerald green solid intact cushions
+        const normalCartilageMat = new THREE.MeshStandardMaterial({
+          color: 0x34d399,
+          roughness: 0.2,
+          metalness: 0.1,
+        });
 
-      // Prepatellar Bursa (In front of patella)
-      const bursaGeo = new THREE.SphereGeometry(0.35, 20, 20);
-      bursaGeo.scale(1.1, 1.2, 0.35);
-      prepatellarBursa = new THREE.Mesh(bursaGeo, new THREE.MeshStandardMaterial({
-        color: 0x38bdf8,
-        transparent: true,
-        opacity: 0.5
-      }));
-      prepatellarBursa.position.set(0, 1.1, 1.48);
-      kneeGroup.add(prepatellarBursa);
+        const medMenGeo = new THREE.TorusGeometry(0.88, 0.22, 16, 32, Math.PI * 1.05);
+        medMenGeo.rotateX(Math.PI / 2);
+        medMenGeo.rotateZ(Math.PI / 2);
+        const medMen = new THREE.Mesh(medMenGeo, normalCartilageMat);
+        medMen.position.set(-0.65, -0.25, 0);
+        kneeGroup.add(medMen);
 
-      // Chondrolysis Wear Zone (Beside patella)
-      const chGeo = new THREE.SphereGeometry(0.25, 16, 16);
-      chGeo.scale(0.5, 1.2, 0.3);
-      chondrolysisHighlight = new THREE.Mesh(chGeo, new THREE.MeshStandardMaterial({
-        color: 0xf97316,
-        emissive: 0xc2410c,
-        emissiveIntensity: 0.7
-      }));
-      chondrolysisHighlight.position.set(-0.55, 1.1, 1.1);
-      kneeGroup.add(chondrolysisHighlight);
-    }
+        const latMenGeo = new THREE.TorusGeometry(0.75, 0.2, 16, 32, Math.PI * 1.15);
+        latMenGeo.rotateX(Math.PI / 2);
+        latMenGeo.rotateZ(-Math.PI / 2);
+        const latMen = new THREE.Mesh(latMenGeo, normalCartilageMat);
+        latMen.position.set(0.65, -0.25, 0);
+        kneeGroup.add(latMen);
 
-    // Toggle 3D Modes: Healthy vs Rekha's Findings
-    function setViewerMode(mode) {
-      currentMode = mode;
-      const btnHealthy = document.getElementById('btnHealthy');
-      const btnFindings = document.getElementById('btnFindings');
-      const badge = document.getElementById('viewerBadge');
+        // Healthy Hoffa's Fat Pad
+        const fatGeo = new THREE.SphereGeometry(0.4, 20, 20);
+        fatGeo.scale(1.2, 0.8, 1);
+        const fatPad = new THREE.Mesh(fatGeo, new THREE.MeshStandardMaterial({
+          color: 0xfef08a,
+          roughness: 0.5,
+          transparent: true,
+          opacity: 0.8
+        }));
+        fatPad.position.set(0, 0.2, 0.7);
+        kneeGroup.add(fatPad);
 
-      if (mode === 'healthy') {
-        // Style buttons
-        btnHealthy.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white shadow-md transition flex items-center gap-1.5';
-        btnHealthy.innerHTML = 'Healthy Knee (Reference)';
-        btnFindings.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition';
-        btnFindings.innerHTML = "Rekha's MRI Highlights";
+        // Healthy flat bursa
+        const bursaGeo = new THREE.SphereGeometry(0.3, 16, 16);
+        bursaGeo.scale(0.9, 0.9, 0.2);
+        const bursa = new THREE.Mesh(bursaGeo, new THREE.MeshStandardMaterial({
+          color: 0x38bdf8,
+          transparent: true,
+          opacity: 0.3
+        }));
+        bursa.position.set(0, 1.1, 1.45);
+        kneeGroup.add(bursa);
 
-        badge.className = 'bg-emerald-500/90 text-slate-900 font-bold text-xs px-3 py-1.5 rounded-xl shadow-lg backdrop-blur-md';
-        badge.innerText = 'Showing: Healthy Normal Knee (All structures intact & green)';
-
-        // 3D Colors: Healthy
-        medialMeniscus.material.color.setHex(0x34d399); // Smooth green
-        tearHighlight.visible = false;
-        chondrolysisHighlight.visible = false;
-
-        hoffaFatPad.material.color.setHex(0xfef08a); // Pale yellow
-        hoffaFatPad.scale.set(1.2, 0.8, 1);
-
-        prepatellarBursa.material.color.setHex(0x38bdf8); // Light thin blue
-        prepatellarBursa.scale.set(0.9, 0.9, 0.2);
-        prepatellarBursa.material.opacity = 0.3;
-
-        mclMesh.material.color.setHex(0xdbeafe); // Calm ligament
       } else {
-        // Rekha's Findings
-        btnFindings.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow-md transition flex items-center gap-1.5';
-        btnFindings.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> Rekha\'s MRI Highlights';
-        btnHealthy.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition';
-        btnHealthy.innerHTML = 'Healthy Knee';
+        // REKHA FINDINGS MODEL:
+        // Medial Meniscus (with horizontal tear in posterior horn)
+        const tornMenMat = new THREE.MeshStandardMaterial({
+          color: 0xfbbf24, // Amber/warn
+          roughness: 0.25
+        });
 
-        badge.className = 'bg-amber-500/90 text-slate-900 font-bold text-xs px-3 py-1.5 rounded-xl shadow-lg backdrop-blur-md';
-        badge.innerText = "Showing: Rekha's MRI Issues (Meniscus tear, cartilage wear & bursitis highlighted)";
+        const medMenGeo = new THREE.TorusGeometry(0.88, 0.22, 16, 32, Math.PI * 1.05);
+        medMenGeo.rotateX(Math.PI / 2);
+        medMenGeo.rotateZ(Math.PI / 2);
+        const medMen = new THREE.Mesh(medMenGeo, tornMenMat);
+        medMen.position.set(-0.65, -0.25, 0);
+        kneeGroup.add(medMen);
 
-        // 3D Colors: Highlight Issues
-        medialMeniscus.material.color.setHex(0xfbbf24); // Amber warn
-        tearHighlight.visible = true; // Red horizontal tear line
-        chondrolysisHighlight.visible = true; // Orange parapatellar wear
+        // RED TEAR HIGHLIGHT (Posterior Horn)
+        const tearGeo = new THREE.BoxGeometry(0.48, 0.09, 0.42);
+        tearHighlightRekha = new THREE.Mesh(tearGeo, new THREE.MeshStandardMaterial({
+          color: 0xef4444,
+          emissive: 0xb91c1c,
+          emissiveIntensity: 0.9,
+          roughness: 0.1
+        }));
+        tearHighlightRekha.position.set(-0.85, -0.25, -0.3);
+        kneeGroup.add(tearHighlightRekha);
 
-        hoffaFatPad.material.color.setHex(0xf472b6); // Irritated pink/purple
-        hoffaFatPad.scale.set(1.4, 1.0, 1.2); // Mild oedema swelling
+        // Lateral Meniscus (Healthy intact)
+        const latMenGeo = new THREE.TorusGeometry(0.75, 0.2, 16, 32, Math.PI * 1.15);
+        latMenGeo.rotateX(Math.PI / 2);
+        latMenGeo.rotateZ(-Math.PI / 2);
+        const latMen = new THREE.Mesh(latMenGeo, new THREE.MeshStandardMaterial({ color: 0x34d399, roughness: 0.2 }));
+        latMen.position.set(0.65, -0.25, 0);
+        kneeGroup.add(latMen);
 
-        prepatellarBursa.material.color.setHex(0xf43f5e); // Reddish swollen bursa
-        prepatellarBursa.scale.set(1.2, 1.4, 0.5); // Distended bursitis
-        prepatellarBursa.material.opacity = 0.7;
+        // Irritated Hoffa's Fat Pad (Swollen with oedema)
+        const fatGeo = new THREE.SphereGeometry(0.48, 20, 20);
+        fatGeo.scale(1.4, 1.0, 1.2);
+        const fatPad = new THREE.Mesh(fatGeo, new THREE.MeshStandardMaterial({
+          color: 0xf472b6,
+          roughness: 0.5,
+          transparent: true,
+          opacity: 0.85
+        }));
+        fatPad.position.set(0, 0.2, 0.7);
+        kneeGroup.add(fatPad);
 
-        mclMesh.material.color.setHex(0x93c5fd); // Low-grade mild sprain
+        // Swollen Prepatellar Bursitis (Distended fluid sac)
+        const bursaGeo = new THREE.SphereGeometry(0.4, 20, 20);
+        bursaGeo.scale(1.2, 1.4, 0.5);
+        const bursa = new THREE.Mesh(bursaGeo, new THREE.MeshStandardMaterial({
+          color: 0xf43f5e,
+          transparent: true,
+          opacity: 0.75
+        }));
+        bursa.position.set(0, 1.1, 1.5);
+        kneeGroup.add(bursa);
+
+        // Grade 4 Parapatellar Chondrolysis (Cartilage Wear Zone)
+        const chGeo = new THREE.SphereGeometry(0.25, 16, 16);
+        chGeo.scale(0.5, 1.2, 0.3);
+        chondrolysisHighlightRekha = new THREE.Mesh(chGeo, new THREE.MeshStandardMaterial({
+          color: 0xf97316,
+          emissive: 0xc2410c,
+          emissiveIntensity: 0.8
+        }));
+        chondrolysisHighlightRekha.position.set(-0.55, 1.1, 1.1);
+        kneeGroup.add(chondrolysisHighlightRekha);
       }
     }
 
-    // Camera Quick Focus Positions
-    function focusStructure(type) {
-      // Smoothly rotate knee or move camera
+    // Camera Synchronized Quick-Jumps
+    function focusBothStructures(type) {
+      if (!cameraHealthy || !cameraRekha || !controlsHealthy || !controlsRekha) return;
+
+      let x = 4, y = 2, z = 7, tx = 0, ty = 0, tz = 0;
       if (type === 'front') {
-        // Focus on Patella, Bursa & Hoffa's pad
-        gsapAnimateCamera(0, 1.2, 5.5, 0, 0.8, 0);
+        x = 0; y = 1.2; z = 5.5; tx = 0; ty = 0.8; tz = 0;
       } else if (type === 'medial') {
-        // Focus on inner side (Meniscus tear & MCL)
-        gsapAnimateCamera(-5.5, 0.3, 1.5, -0.7, 0, 0);
+        x = -5.5; y = 0.3; z = 1.5; tx = -0.7; ty = 0; tz = 0;
       } else if (type === 'lateral') {
-        // Focus on outer healthy side
-        gsapAnimateCamera(5.5, 0.3, 1.5, 0.7, 0, 0);
+        x = 5.5; y = 0.3; z = 1.5; tx = 0.7; ty = 0; tz = 0;
+      }
+
+      cameraHealthy.position.set(x, y, z);
+      cameraRekha.position.set(x, y, z);
+      controlsHealthy.target.set(tx, ty, tz);
+      controlsRekha.target.set(tx, ty, tz);
+      controlsHealthy.update();
+      controlsRekha.update();
+    }
+
+    function resetBothCameras() {
+      focusBothStructures('reset');
+    }
+
+    function onDualResize() {
+      const cH = document.getElementById('healthyCanvas');
+      const cR = document.getElementById('rekhaCanvas');
+
+      if (cH && rendererHealthy && cameraHealthy) {
+        const w = cH.clientWidth;
+        const h = cH.clientHeight;
+        cameraHealthy.aspect = w / h;
+        cameraHealthy.updateProjectionMatrix();
+        rendererHealthy.setSize(w, h);
+      }
+
+      if (cR && rendererRekha && cameraRekha) {
+        const w = cR.clientWidth;
+        const h = cR.clientHeight;
+        cameraRekha.aspect = w / h;
+        cameraRekha.updateProjectionMatrix();
+        rendererRekha.setSize(w, h);
       }
     }
 
-    function reset3DCamera() {
-      gsapAnimateCamera(4, 2, 7, 0, 0, 0);
-    }
+    // Render loop with subtle pulsing of Rekha's tear highlight
+    function animateDual() {
+      requestAnimationFrame(animateDual);
 
-    function gsapAnimateCamera(x, y, z, tx, ty, tz) {
-      camera.position.set(x, y, z);
-      controls.target.set(tx, ty, tz);
-      controls.update();
-    }
-
-    function onWindowResize() {
-      const container = document.getElementById('kneeCanvas');
-      if (!container || !renderer || !camera) return;
-      const width = container.clientWidth;
-      const height = container.clientHeight;
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-    }
-
-    // Animation Render Loop
-    function animate() {
-      requestAnimationFrame(animate);
-
-      // Subtle breathing pulse on tear and inflammation when in findings mode
-      if (currentMode === 'findings') {
-        const time = Date.now() * 0.003;
-        if (tearHighlight) {
-          tearHighlight.material.emissiveIntensity = 0.5 + Math.sin(time * 3) * 0.4;
-        }
-        if (chondrolysisHighlight) {
-          chondrolysisHighlight.material.emissiveIntensity = 0.5 + Math.cos(time * 3) * 0.4;
-        }
+      const time = Date.now() * 0.003;
+      if (tearHighlightRekha) {
+        tearHighlightRekha.material.emissiveIntensity = 0.5 + Math.sin(time * 3) * 0.4;
+      }
+      if (chondrolysisHighlightRekha) {
+        chondrolysisHighlightRekha.material.emissiveIntensity = 0.5 + Math.cos(time * 3) * 0.4;
       }
 
-      controls.update();
-      renderer.render(scene, camera);
+      if (controlsHealthy && rendererHealthy && sceneHealthy && cameraHealthy) {
+        controlsHealthy.update();
+        rendererHealthy.render(sceneHealthy, cameraHealthy);
+      }
+
+      if (controlsRekha && rendererRekha && sceneRekha && cameraRekha) {
+        controlsRekha.update();
+        rendererRekha.render(sceneRekha, cameraRekha);
+      }
     }
 
     // ----------------------------------------------------
@@ -1657,7 +1725,7 @@
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
       renderChecklist();
-      init3DViewer();
+      initDual3DViewers();
     });
   </script>
 </body>
