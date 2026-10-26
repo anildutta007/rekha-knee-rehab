@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rekha's Knee Recovery & Rehab Guide</title>
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            heading: ['"Outfit"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            },
+            tealAccent: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              500: '#14b8a6',
+              600: '#0d9488',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom smooth scrolling and styling */
+    html { scroll-behavior: smooth; }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    .badge-reassure {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .badge-caution {
+      background: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+    .badge-focus {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-sky-100 selection:text-sky-900">
+
+  <!-- TOP HEADER -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-teal-400 flex items-center justify-center text-white shadow-md shadow-sky-500/20 font-heading font-bold text-lg">
+          RK
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-heading font-bold text-slate-900 leading-tight">Rekha's Knee Health & Rehab</h1>
+          <p class="text-xs text-slate-500">Right Knee MRI Report Breakdown & Guided Exercises</p>
+        </div>
+      </div>
+      
+      <!-- Nav Links -->
+      <nav class="hidden md:flex items-center space-x-1 sm:space-x-2 text-sm font-medium">
+        <a href="#summary" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-sky-600 hover:bg-slate-100 transition">Overview</a>
+        <a href="#diagnoses" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-sky-600 hover:bg-slate-100 transition">MRI Issues Explained</a>
+        <a href="#exercises" class="px-3 py-1.5 rounded-lg text-white bg-sky-600 hover:bg-sky-700 shadow-sm transition flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Exercise Program
+        </a>
+        <a href="#faq" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-sky-600 hover:bg-slate-100 transition">FAQ & Tips</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-sky-50/80 via-white to-slate-50 border-b border-slate-200 py-10 sm:py-14">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-7">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100/80 text-emerald-800 border border-emerald-300 mb-4">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Personalised Recovery Hub
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
+            Understanding Your Right Knee & Your Safe Path to Recovery
+          </h2>
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed mb-6">
+            Medical reports can sound intimidating, but having clear clarity brings peace of mind. Here is your clear, plain-English breakdown of your MRI findings, what they actually mean, and a gentle physical therapy regimen with instructional videos.
+          </p>
+
+          <div class="flex flex-wrap gap-3">
+            <a href="#exercises" class="inline-flex items-center px-5 py-2.5 rounded-xl font-semibold text-white bg-sky-600 hover:bg-sky-700 shadow-md shadow-sky-600/20 transition gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              Go to Daily Exercises
+            </a>
+            <a href="#diagnoses" class="inline-flex items-center px-5 py-2.5 rounded-xl font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 transition gap-2">
+              Explore MRI Findings
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Summary Card -->
+        <div class="lg:col-span-5">
+          <div class="bg-white rounded-2xl p-6 shadow-xl border border-slate-200/80 relative">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+              <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Clinical Consultation Details</span>
+              <span class="text-xs font-medium px-2.5 py-1 rounded-md bg-sky-50 text-sky-700 border border-sky-100">Review Pending</span>
+            </div>
+            
+            <div class="mt-4 space-y-3.5 text-sm">
+              <div class="flex items-start gap-3">
+                <div class="p-2 bg-sky-100 text-sky-700 rounded-lg mt-0.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                </div>
+                <div>
+                  <div class="font-semibold text-slate-800">Referring Specialist</div>
+                  <div class="text-slate-500">Mr. Stephen Palmer (Orthopaedic Review)</div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="p-2 bg-emerald-100 text-emerald-700 rounded-lg mt-0.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div>
+                  <div class="font-semibold text-slate-800">Key Good News on MRI</div>
+                  <div class="text-slate-600 text-xs sm:text-sm">ACL, PCL, LCL intact. No bone fractures. Meniscus is not displaced/extruded (in stable position).</div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="p-2 bg-amber-100 text-amber-700 rounded-lg mt-0.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div>
+                  <div class="font-semibold text-slate-800">Primary Treatment Route</div>
+                  <div class="text-slate-600 text-xs sm:text-sm">Conservative care: Targeted low-impact physio, quadriceps/hamstring stability, swelling management.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-slate-100 text-xs text-slate-400 text-center">
+              *Designed specifically for easy daily mobile & tablet reference
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+    <!-- SECTION 1: REPORT AT A GLANCE (TRAFFIC LIGHT SYSTEM) -->
+    <section id="summary" class="scroll-mt-20">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Overview</span>
+          <h3 class="text-2xl sm:text-3xl font-heading font-bold text-slate-900 mt-1">MRI Results at a Glance</h3>
+          <p class="text-slate-500 text-sm mt-1">A transparent summary showing what is completely healthy vs. what requires rehab attention.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card 1: Needs Active Rehab -->
+        <div class="bg-amber-50/50 rounded-2xl p-6 border border-amber-200">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-3.5 h-3.5 rounded-full bg-amber-500 ring-4 ring-amber-100"></span>
+            <h4 class="font-heading font-bold text-amber-900 text-lg">Active Attention (Rehab)</h4>
+          </div>
+          <p class="text-xs text-amber-800/80 mb-4">These explain your current discomfort and will improve with exercise & swelling control.</p>
+          <ul class="space-y-3 text-sm text-slate-700">
+            <li class="flex items-start gap-2">
+              <span class="text-amber-600 font-bold">•</span>
+              <span><strong>Medial Meniscus:</strong> Horizontal tear in posterior horn with local fluid/swelling.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-amber-600 font-bold">•</span>
+              <span><strong>Kneecap Cartilage:</strong> Grade 4 parapatellar wear (smooth gliding needs quad support).</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-amber-600 font-bold">•</span>
+              <span><strong>Hoffa's Fat Pad:</strong> Mild irritation & swelling beneath kneecap.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-amber-600 font-bold">•</span>
+              <span><strong>Prepatellar Bursitis:</strong> Fluid in the front cushion of kneecap.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Card 2: Mild / Incidental -->
+        <div class="bg-blue-50/50 rounded-2xl p-6 border border-blue-200">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-3.5 h-3.5 rounded-full bg-blue-500 ring-4 ring-blue-100"></span>
+            <h4 class="font-heading font-bold text-blue-900 text-lg">Mild & Stable</h4>
+          </div>
+          <p class="text-xs text-blue-800/80 mb-4">Common findings that require gentle protection but no urgent intervention.</p>
+          <ul class="space-y-3 text-sm text-slate-700">
+            <li class="flex items-start gap-2">
+              <span class="text-blue-600 font-bold">•</span>
+              <span><strong>MCL (Inner Ligament):</strong> Low-grade, chronic mild strain. Joint remains functionally stable.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-blue-600 font-bold">•</span>
+              <span><strong>Joint Effusion:</strong> Small, natural fluid response to the local irritation (no Baker's cyst).</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Card 3: Completely Healthy & Reassuring -->
+        <div class="bg-emerald-50/50 rounded-2xl p-6 border border-emerald-200">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 ring-4 ring-emerald-100"></span>
+            <h4 class="font-heading font-bold text-emerald-900 text-lg">Intact & Healthy (Great News!)</h4>
+          </div>
+          <p class="text-xs text-emerald-800/80 mb-4">The core structural pillars of your knee are preserved and strong.</p>
+          <ul class="space-y-3 text-sm text-slate-700">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span><strong>Major Cruciates:</strong> ACL & PCL are completely intact and strong.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span><strong>Lateral Meniscus & LCL:</strong> Outer side of the knee is in great shape.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span><strong>Tibiofemoral Cartilage:</strong> Main weight-bearing joint cartilage between thigh & shin is intact.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span><strong>Bone Marrow:</strong> Normal signal, no fractures or bone bruises.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: DETAILED SECTIONS FOR EACH ISSUE IDENTIFIED -->
+    <section id="diagnoses" class="scroll-mt-20">
+      <div class="mb-8">
+        <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Deep Dive</span>
+        <h3 class="text-2xl sm:text-3xl font-heading font-bold text-slate-900 mt-1">Detailed Breakdown of Each Issue</h3>
+        <p class="text-slate-500 text-sm mt-1">Select any tab or scroll through each specific area found on your MRI.</p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="flex flex-wrap gap-2 mb-6" id="issueFilterContainer">
+        <button onclick="filterIssues('all')" class="issue-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-white shadow-sm transition" data-filter="all">All Findings (6)</button>
+        <button onclick="filterIssues('meniscus')" class="issue-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition" data-filter="meniscus">Meniscus Tear</button>
+        <button onclick="filterIssues('cartilage')" class="issue-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition" data-filter="cartilage">Kneecap Cartilage</button>
+        <button onclick="filterIssues('inflammation')" class="issue-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition" data-filter="inflammation">Fat Pad & Bursitis</button>
+        <button onclick="filterIssues('ligament')" class="issue-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition" data-filter="ligament">MCL & Joint Fluid</button>
+      </div>
+
+      <div class="space-y-6" id="issuesList">
+
+        <!-- ISSUE 1: Medial Meniscal Tear -->
+        <div class="issue-item bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm transition hover:shadow-md" data-category="meniscus">
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xl shrink-0">
+                1
+              </div>
+              <div>
+                <div class="flex items-center gap-2.5 flex-wrap">
+                  <h4 class="text-xl font-heading font-bold text-slate-900">Medial Meniscal Horizontal Tear (Posterior Horn)</h4>
+                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800">Primary Diagnosis</span>
+                </div>
+                <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Horizontal tear extending to tibial surface with menisco-capsular oedema. No displaced flap.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6 pt-5 border-t border-slate-100">
+            <div>
+              <h5 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full bg-sky-500"></span> What does this mean in plain English?
+              </h5>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                The medial meniscus is a shock-absorbing C-shaped fibrocartilage cushion sitting on the inner side of your knee. A <strong>horizontal tear</strong> splits the cushion horizontally (like cutting a sandwich bagel in half horizontally). 
+                <br><br>
+                <strong>Crucial positive note:</strong> The MRI confirms there is <em>no detached flap</em> and <em>no meniscal extrusion</em> (it has not slipped out of place). It stays where it belongs, meaning conservative rehabilitation with muscle-strengthening has a high chance of success!
+              </p>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+              <h5 class="text-sm font-bold text-slate-800 mb-2">Care Advice & Exercises</h5>
+              <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-500 font-bold">✔</span>
+                  <span><strong>Do:</strong> Straight leg raises, quad sets, and hamstring bridges to take pressure off the meniscus.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-rose-500 font-bold">✖</span>
+                  <span><strong>Avoid for now:</strong> Deep twisting, sudden pivots on a planted foot, or deep squats beyond 90 degrees.</span>
+                </li>
+              </ul>
+              <div class="mt-4">
+                <a href="#ex-straight-leg" class="text-xs font-semibold text-sky-600 hover:text-sky-800 flex items-center gap-1">
+                  View Recommended Meniscus Exercises &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ISSUE 2: Grade 4 Parapatellar Chondrolysis -->
+        <div class="issue-item bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm transition hover:shadow-md" data-category="cartilage">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-xl shrink-0">
+              2
+            </div>
+            <div>
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <h4 class="text-xl font-heading font-bold text-slate-900">Grade 4 Parapatellar Chondrolysis</h4>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-800">Cartilage Wear</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Full-thickness loss of cartilage alongside the kneecap (patella). Note: Tibiofemoral cartilage is intact.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6 pt-5 border-t border-slate-100">
+            <div>
+              <h5 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full bg-sky-500"></span> What does this mean in plain English?
+              </h5>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Cartilage is the smooth coating that helps bones glide smoothly against each other. "Grade 4" means in one specific zone alongside the kneecap (parapatellar groove), the cartilage layer has worn thin down to the underlying bone.
+                <br><br>
+                The great news is that the <strong>main joint cartilage</strong> (tibiofemoral) between your upper leg bone and shin bone is fully preserved! Strengthening the vastus medialis (inner quad) and glutes improves kneecap tracking so it glides smoothly without rubbing.
+              </p>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+              <h5 class="text-sm font-bold text-slate-800 mb-2">Care Advice & Exercises</h5>
+              <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-500 font-bold">✔</span>
+                  <span><strong>Do:</strong> Low-impact quad sets, gentle isometric wall sits (shallow), and glute bridges.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-rose-500 font-bold">✖</span>
+                  <span><strong>Avoid for now:</strong> Heavy lunges, high-impact running, or stairs when knees are feeling inflamed.</span>
+                </li>
+              </ul>
+              <div class="mt-4">
+                <a href="#ex-quad-sets" class="text-xs font-semibold text-sky-600 hover:text-sky-800 flex items-center gap-1">
+                  View Quad Strengthening Exercises &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ISSUE 3: Hoffa's Fat Pad Oedema -->
+        <div class="issue-item bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm transition hover:shadow-md" data-category="inflammation">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xl shrink-0">
+              3
+            </div>
+            <div>
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <h4 class="text-xl font-heading font-bold text-slate-900">Hoffa’s Fat Pad Mild Oedema</h4>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800">Irritation / Pinch</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Mild superolateral oedema (swelling) within Hoffa's infrapatellar fat pad.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6 pt-5 border-t border-slate-100">
+            <div>
+              <h5 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full bg-sky-500"></span> What does this mean in plain English?
+              </h5>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Hoffa’s fat pad is a rich, soft cushion packed with nerve endings located right behind and below the kneecap tendon. When inflamed ("oedema"), it can be sensitive when extending the knee fully or kneeling.
+                <br><br>
+                Because this fat pad is sensitive, aggressive hyperextension (locking the knee backward) should be avoided while it calms down. Cold therapy and gentle range-of-motion work quickly alleviate this swelling.
+              </p>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+              <h5 class="text-sm font-bold text-slate-800 mb-2">Care Advice & Exercises</h5>
+              <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-500 font-bold">✔</span>
+                  <span><strong>Do:</strong> Ice packs (15 mins after activity), gentle heel slides, avoiding hyperextension lock.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-rose-500 font-bold">✖</span>
+                  <span><strong>Avoid:</strong> Prolonged kneeling on hard surfaces without padding, snapping the knee back forcefully.</span>
+                </li>
+              </ul>
+              <div class="mt-4">
+                <a href="#ex-heel-slides" class="text-xs font-semibold text-sky-600 hover:text-sky-800 flex items-center gap-1">
+                  View Gentle Heel Slide Exercise &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ISSUE 4: Prepatellar Bursitis -->
+        <div class="issue-item bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm transition hover:shadow-md" data-category="inflammation">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xl shrink-0">
+              4
+            </div>
+            <div>
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <h4 class="text-xl font-heading font-bold text-slate-900">Prepatellar Bursitis</h4>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800">Front Knee Fluid</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Fluid and inflammation in the bursa sac located on the front surface of the kneecap.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6 pt-5 border-t border-slate-100">
+            <div>
+              <h5 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full bg-sky-500"></span> What does this mean in plain English?
+              </h5>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                A bursa is a thin, fluid-filled pouch designed to reduce friction between the skin and the kneecap bone. When irritated (from pressure, repetitive bending, or friction), it fills with extra fluid, creating puffiness in front of the kneecap.
+                <br><br>
+                Bursitis is very treatable conservatively through rest, ice, compression, and keeping excessive direct pressure off the front of the knee.
+              </p>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+              <h5 class="text-sm font-bold text-slate-800 mb-2">Care Advice & Exercises</h5>
+              <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-500 font-bold">✔</span>
+                  <span><strong>Do:</strong> Elevation, cold compress wrap for 15-20 mins, gentle non-weight bearing motion.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-rose-500 font-bold">✖</span>
+                  <span><strong>Avoid:</strong> Direct kneeling on floor/carpet; wear a soft knee pad if ever needing to kneel.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ISSUE 5: MCL Low-Grade Chronic Sprain -->
+        <div class="issue-item bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm transition hover:shadow-md" data-category="ligament">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xl shrink-0">
+              5
+            </div>
+            <div>
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <h4 class="text-xl font-heading font-bold text-slate-900">MCL (Medial Collateral Ligament) Low-Grade Chronic Sprain</h4>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800">Mild Ligament Strain</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Low-grade, chronic sprain. Ligament fibres remain intact with stability intact.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6 pt-5 border-t border-slate-100">
+            <div>
+              <h5 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full bg-sky-500"></span> What does this mean in plain English?
+              </h5>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                The MCL runs down the inside of your knee, preventing the knee from collapsing inward. "Chronic low-grade" means it has experienced mild overstretching in the past, but is not torn through and maintains your knee's internal stability.
+                <br><br>
+                Rebuilding hip abductor strength (side glutes) prevents the knee from caving inwards (valgus collapse), giving your MCL complete protection.
+              </p>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+              <h5 class="text-sm font-bold text-slate-800 mb-2">Care Advice & Exercises</h5>
+              <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-500 font-bold">✔</span>
+                  <span><strong>Do:</strong> Clamshells and side leg raises to fortify gluteus medius for inner knee alignment.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-rose-500 font-bold">✖</span>
+                  <span><strong>Avoid:</strong> Wide stance squats where knees collapse inward toward each other.</span>
+                </li>
+              </ul>
+              <div class="mt-4">
+                <a href="#ex-clamshells" class="text-xs font-semibold text-sky-600 hover:text-sky-800 flex items-center gap-1">
+                  View Clamshell & Hip Stability Exercises &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ISSUE 6: Joint Effusion & Menisco-Capsular Oedema -->
+        <div class="issue-item bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm transition hover:shadow-md" data-category="ligament">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-xl shrink-0">
+              6
+            </div>
+            <div>
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <h4 class="text-xl font-heading font-bold text-slate-900">Small Joint Effusion & Posteromedial Swelling</h4>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800">Reactive Fluid</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Small intra-articular fluid buildup. Reassuring: No Baker’s cyst detected.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6 pt-5 border-t border-slate-100">
+            <div>
+              <h5 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full bg-sky-500"></span> What does this mean in plain English?
+              </h5>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                When any structure inside the joint is irritated, the knee's synovial lining generates extra fluid — like a natural internal water-cushion. It is described as "small", which is mild and expected. 
+                <br><br>
+                Notice also that there is <strong>no Baker's cyst</strong> (no fluid bulge protruding into the back hollow of your knee). As the surrounding tissues strengthen, the joint absorbs this fluid naturally.
+              </p>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+              <h5 class="text-sm font-bold text-slate-800 mb-2">Care Advice & Exercises</h5>
+              <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-500 font-bold">✔</span>
+                  <span><strong>Do:</strong> Gentle ankle pumps and calf raises to stimulate venous pump and lymphatic drainage.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-rose-500 font-bold">✖</span>
+                  <span><strong>Avoid:</strong> Long periods of standing completely motionless.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: REHAB EXERCISE PROGRAM WITH VIDEO LINKS -->
+    <section id="exercises" class="scroll-mt-20">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Rehabilitation Plan</span>
+          <h3 class="text-2xl sm:text-3xl font-heading font-bold text-slate-900 mt-1">Targeted Daily Exercise Program</h3>
+          <p class="text-slate-500 text-sm mt-1">Safe, physiotherapist-endorsed exercises selected specifically for your meniscus, cartilage, and fat pad recovery.</p>
+        </div>
+        <div class="mt-4 md:mt-0 flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-800 px-3.5 py-2 rounded-xl text-xs font-semibold">
+          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          Low-Impact & Joint-Friendly
+        </div>
+      </div>
+
+      <!-- Golden Rules Banner -->
+      <div class="bg-gradient-to-r from-sky-900 to-slate-900 text-white rounded-2xl p-6 mb-10 shadow-lg">
+        <h4 class="font-heading font-bold text-lg text-sky-200 mb-2 flex items-center gap-2">
+          <svg class="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          Rekha's Golden Rules for Exercise:
+        </h4>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs sm:text-sm text-slate-300 mt-3">
+          <div class="bg-white/10 p-3 rounded-xl">
+            <span class="font-bold text-white block mb-1">1. Pain-Free Range:</span>
+            A mild muscle burn is normal; sharp pain or pinch is your signal to back off.
+          </div>
+          <div class="bg-white/10 p-3 rounded-xl">
+            <span class="font-bold text-white block mb-1">2. Smooth & Controlled:</span>
+            Never bounce or snap your knee locked. Focus on slow 3-second counts.
+          </div>
+          <div class="bg-white/10 p-3 rounded-xl">
+            <span class="font-bold text-white block mb-1">3. Ice Afterwards:</span>
+            Apply a cold pack wrapped in a towel for 10-15 minutes if warmth or puffiness occurs.
+          </div>
+        </div>
+      </div>
+
+      <!-- Exercise Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- EXERCISE 1: Quad Sets (Isometric) -->
+        <div id="ex-quad-sets" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 bg-sky-50 px-2.5 py-1 rounded-md">Essential Phase 1</span>
+                <span class="text-xs font-semibold text-slate-400">Target: Quad & Kneecap Glide</span>
+              </div>
+              <h4 class="text-xl font-heading font-bold text-slate-900 mb-2">1. Isometric Quad Sets (Towel Press)</h4>
+              <p class="text-slate-600 text-sm mb-4">
+                Helps reactivate your front thigh muscles without moving the joint, protecting both the meniscus and patellar cartilage from friction.
+              </p>
+
+              <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
+                <p><strong>How to do it:</strong></p>
+                <ol class="list-decimal list-inside space-y-1 text-slate-600">
+                  <li>Sit on your bed or floor with your right leg stretched out flat.</li>
+                  <li>Place a small rolled towel directly under your knee.</li>
+                  <li>Tighten your thigh muscle by pressing the back of your knee gently into the towel.</li>
+                  <li>Hold firmly for <strong>5 seconds</strong>, then slowly release.</li>
+                </ol>
+                <div class="pt-2 text-xs font-semibold text-slate-500">
+                  Frequency: 2 sets of 10-12 repetitions, twice daily.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Video embed / link section -->
+          <div class="bg-slate-50 p-4 border-t border-slate-100">
+            <a href="https://www.youtube.com/results?search_query=quad+sets+isometric+knee+physical+therapy" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition shadow-sm">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              Watch Video: Quad Sets Technique
+            </a>
+          </div>
+        </div>
+
+        <!-- EXERCISE 2: Straight Leg Raise -->
+        <div id="ex-straight-leg" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-50 px-2.5 py-1 rounded-md">Meniscus Safe</span>
+                <span class="text-xs font-semibold text-slate-400">Target: Hip & Thigh Strength</span>
+              </div>
+              <h4 class="text-xl font-heading font-bold text-slate-900 mb-2">2. Straight Leg Raises (SLR)</h4>
+              <p class="text-slate-600 text-sm mb-4">
+                Strengthens the entire anterior chain and hip flexor without bending the knee joint, preventing friction against the posterior horn meniscus tear.
+              </p>
+
+              <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
+                <p><strong>How to do it:</strong></p>
+                <ol class="list-decimal list-inside space-y-1 text-slate-600">
+                  <li>Lie flat on your back. Bend your left (good) knee with foot on the floor.</li>
+                  <li>Keep your right knee straight and toes pointed up.</li>
+                  <li>Lock your quad and smoothly lift the right leg 8 to 12 inches off the ground.</li>
+                  <li>Hold for <strong>2-3 seconds</strong> at the top, then lower slowly.</li>
+                </ol>
+                <div class="pt-2 text-xs font-semibold text-slate-500">
+                  Frequency: 2 sets of 10 reps per session.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Video embed / link section -->
+          <div class="bg-slate-50 p-4 border-t border-slate-100">
+            <a href="https://www.youtube.com/results?search_query=straight+leg+raise+knee+rehab+exercise" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition shadow-sm">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              Watch Video: Straight Leg Raise Form
+            </a>
+          </div>
+        </div>
+
+        <!-- EXERCISE 3: Gentle Heel Slides -->
+        <div id="ex-heel-slides" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">Mobility & Fluid Flow</span>
+                <span class="text-xs font-semibold text-slate-400">Target: Range of Motion</span>
+              </div>
+              <h4 class="text-xl font-heading font-bold text-slate-900 mb-2">3. Gentle Towel / Sock Heel Slides</h4>
+              <p class="text-slate-600 text-sm mb-4">
+                Helps pump stagnant fluid (effusion & fat pad irritation) out of the knee joint while gently restoring bending flexibility.
+              </p>
+
+              <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
+                <p><strong>How to do it:</strong></p>
+                <ol class="list-decimal list-inside space-y-1 text-slate-600">
+                  <li>Sit or lie on a smooth surface wearing socks (or use a small towel under heel).</li>
+                  <li>Slowly slide your right heel toward your buttock, bending the knee within comfortable limits.</li>
+                  <li>Pause for <strong>3-5 seconds</strong> where comfortable, feeling a mild stretch without pain.</li>
+                  <li>Slowly slide back out straight.</li>
+                </ol>
+                <div class="pt-2 text-xs font-semibold text-slate-500">
+                  Frequency: 10 to 12 slow repetitions, 1-2 times daily.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 p-4 border-t border-slate-100">
+            <a href="https://www.youtube.com/results?search_query=heel+slides+knee+rehab+exercise+physio" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition shadow-sm">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              Watch Video: Gentle Heel Slides Guide
+            </a>
+          </div>
+        </div>
+
+        <!-- EXERCISE 4: Clamshells for MCL & Knee Tracking -->
+        <div id="ex-clamshells" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">MCL & Patella Support</span>
+                <span class="text-xs font-semibold text-slate-400">Target: Gluteus Medius</span>
+              </div>
+              <h4 class="text-xl font-heading font-bold text-slate-900 mb-2">4. Side-Lying Clamshells</h4>
+              <p class="text-slate-600 text-sm mb-4">
+                Strengthens hip abductors. This prevents your knee from collapsing inward during walking, taking the tension off your sprained MCL and patellar groove.
+              </p>
+
+              <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
+                <p><strong>How to do it:</strong></p>
+                <ol class="list-decimal list-inside space-y-1 text-slate-600">
+                  <li>Lie on your left (uninjured) side with both knees bent at a 45-degree angle.</li>
+                  <li>Keep your feet glued together.</li>
+                  <li>Slowly lift your top (right) knee toward the ceiling while keeping pelvis steady (don’t roll backwards).</li>
+                  <li>Hold for <strong>2 seconds</strong>, then lower smoothly.</li>
+                </ol>
+                <div class="pt-2 text-xs font-semibold text-slate-500">
+                  Frequency: 2 sets of 12 reps on each side.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 p-4 border-t border-slate-100">
+            <a href="https://www.youtube.com/results?search_query=clamshell+exercise+knee+rehab" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition shadow-sm">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              Watch Video: Perfect Clamshell Form
+            </a>
+          </div>
+        </div>
+
+        <!-- EXERCISE 5: Glute Bridges -->
+        <div id="ex-bridges" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">Posterior Stability</span>
+                <span class="text-xs font-semibold text-slate-400">Target: Glutes & Hamstrings</span>
+              </div>
+              <h4 class="text-xl font-heading font-bold text-slate-900 mb-2">5. Bilateral Glute Bridges</h4>
+              <p class="text-slate-600 text-sm mb-4">
+                Strengthens posterior chain without placing direct shearing forces across the knee joint or patella.
+              </p>
+
+              <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
+                <p><strong>How to do it:</strong></p>
+                <ol class="list-decimal list-inside space-y-1 text-slate-600">
+                  <li>Lie on your back with both knees bent, feet flat hip-width apart.</li>
+                  <li>Engage your core and squeeze your glutes.</li>
+                  <li>Drive through your heels to lift your hips until your thighs and torso align.</li>
+                  <li>Hold for <strong>3 seconds</strong>, then slowly lower down.</li>
+                </ol>
+                <div class="pt-2 text-xs font-semibold text-slate-500">
+                  Frequency: 2 sets of 10 reps.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 p-4 border-t border-slate-100">
+            <a href="https://www.youtube.com/results?search_query=glute+bridge+physical+therapy+knee+pain" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition shadow-sm">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              Watch Video: Glute Bridge for Knee Pain
+            </a>
+          </div>
+        </div>
+
+        <!-- EXERCISE 6: Seated Long Arc Quad / Terminal Knee Extension -->
+        <div id="ex-seated-ext" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">VMO Awakening</span>
+                <span class="text-xs font-semibold text-slate-400">Target: Vastus Medialis (VMO)</span>
+              </div>
+              <h4 class="text-xl font-heading font-bold text-slate-900 mb-2">6. Seated Terminal Knee Extension</h4>
+              <p class="text-slate-600 text-sm mb-4">
+                Helps strengthen the inner quadriceps muscle that controls kneecap positioning, keeping it centered away from the worn cartilage zone.
+              </p>
+
+              <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
+                <p><strong>How to do it:</strong></p>
+                <ol class="list-decimal list-inside space-y-1 text-slate-600">
+                  <li>Sit upright in a supportive chair with knees bent at 90 degrees.</li>
+                  <li>Slowly straighten your right leg out in front until it is almost horizontal.</li>
+                  <li>Focus on squeezing the muscle just above the inside of your kneecap for <strong>3 seconds</strong>.</li>
+                  <li>Lower gently back to floor.</li>
+                </ol>
+                <div class="pt-2 text-xs font-semibold text-slate-500">
+                  Frequency: 2 sets of 10 reps.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 p-4 border-t border-slate-100">
+            <a href="https://www.youtube.com/results?search_query=long+arc+quad+seated+knee+extension+physio" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition shadow-sm">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              Watch Video: Seated Quad Extension
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 4: CLINICAL QUESTIONS FOR MR. STEPHEN PALMER -->
+    <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/90 shadow-sm">
+      <div class="flex items-start gap-4 mb-6">
+        <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+        </div>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Discussion Checklist</span>
+          <h3 class="text-2xl font-heading font-bold text-slate-900 mt-0.5">Questions for Your Consultation with Mr. Stephen Palmer</h3>
+          <p class="text-slate-500 text-sm mt-1">Take these prepared questions with you to your specialist review:</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+          <span class="text-sky-600 font-bold text-base">1.</span>
+          <div>
+            <strong class="text-slate-900">Symptom Correlation:</strong>
+            <p class="text-xs text-slate-600 mt-1">"Does my pain match the posterior horn tear on the inside joint line, or is more discomfort coming from the front kneecap bursitis & fat pad?"</p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+          <span class="text-sky-600 font-bold text-base">2.</span>
+          <div>
+            <strong class="text-slate-900">Physiotherapy Prescription:</strong>
+            <p class="text-xs text-slate-600 mt-1">"Would you recommend formal NHS/private physical therapy focusing on patellar taping or VMO strengthening for the first 6–12 weeks?"</p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+          <span class="text-sky-600 font-bold text-base">3.</span>
+          <div>
+            <strong class="text-slate-900">Targeted Injections:</strong>
+            <p class="text-xs text-slate-600 mt-1">"If inflammation in the fat pad or bursa persists, would a targeted cortisone or hyaluronic acid injection be considered to assist rehabilitation?"</p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+          <span class="text-sky-600 font-bold text-base">4.</span>
+          <div>
+            <strong class="text-slate-900">Surgical Indications:</strong>
+            <p class="text-xs text-slate-600 mt-1">"Since there is no displaced flap or meniscal locking, what specific red flags would indicate a need for arthroscopy versus continued conservative care?"</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: DAILY REHAB TRACKER -->
+    <section class="bg-gradient-to-br from-slate-900 to-sky-950 text-white rounded-2xl p-6 sm:p-8 shadow-xl">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-800">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-sky-400">Interactive Tool</span>
+          <h3 class="text-2xl font-heading font-bold text-white mt-1">Rekha's Daily Exercise Checklist</h3>
+          <p class="text-slate-400 text-sm mt-0.5">Tick off each exercise as you finish today's session. Saved automatically on this device.</p>
+        </div>
+        <button onclick="resetChecklist()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-slate-300 transition">
+          Reset Daily Tracker
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="checklist">
+        <!-- Checklist items populated via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-400">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="font-medium text-slate-600 mb-1">Personal Health Companion for Rekha</p>
+      <p>Prepared from Right Knee MRI Findings for discussion with referring clinician Mr. Stephen Palmer.</p>
+      <p class="mt-2 text-[11px] text-slate-400">Disclaimer: This web-app is for informational and educational support. Always follow direct medical advice given by your specialist.</p>
+    </div>
+  </footer>
+
+  <!-- INTERACTIVITY SCRIPT -->
+  <script>
+    // Issue Category Filtering
+    function filterIssues(category) {
+      const items = document.querySelectorAll('.issue-item');
+      const buttons = document.querySelectorAll('.issue-filter-btn');
+
+      buttons.forEach(btn => {
+        if (btn.getAttribute('data-filter') === category) {
+          btn.className = 'issue-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-white shadow-sm transition';
+        } else {
+          btn.className = 'issue-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition';
+        }
+      });
+
+      items.forEach(item => {
+        if (category === 'all' || item.getAttribute('data-category') === category) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Daily Checklist with LocalStorage
+    const exercisesList = [
+      { id: 'ex1', title: 'Quad Sets (2x10)' },
+      { id: 'ex2', title: 'Straight Leg Raises (2x10)' },
+      { id: 'ex3', title: 'Heel Slides (10 reps)' },
+      { id: 'ex4', title: 'Clamshells (2x12)' },
+      { id: 'ex5', title: 'Glute Bridges (2x10)' },
+      { id: 'ex6', title: 'Seated Terminal Knee Ext (2x10)' }
+    ];
+
+    function renderChecklist() {
+      const container = document.getElementById('checklist');
+      container.innerHTML = '';
+
+      exercisesList.forEach(item => {
+        const isChecked = localStorage.getItem('rekha_rehab_' + item.id) === 'true';
+        const card = document.createElement('label');
+        card.className = `flex items-center gap-3 p-3.5 rounded-xl border transition cursor-pointer ${
+          isChecked ? 'bg-sky-500/20 border-sky-400/50 text-white' : 'bg-slate-800/80 border-slate-700/60 text-slate-300 hover:bg-slate-800'
+        }`;
+        card.innerHTML = `
+          <input type="checkbox" onchange="toggleExercise('${item.id}', this.checked)" class="w-4 h-4 rounded text-sky-500 focus:ring-0 cursor-pointer" ${isChecked ? 'checked' : ''}>
+          <span class="text-sm font-medium ${isChecked ? 'line-through text-slate-400' : ''}">${item.title}</span>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleExercise(id, checked) {
+      localStorage.setItem('rekha_rehab_' + id, checked);
+      renderChecklist();
+    }
+
+    function resetChecklist() {
+      exercisesList.forEach(item => {
+        localStorage.removeItem('rekha_rehab_' + item.id);
+      });
+      renderChecklist();
+    }
+
+    // Initialize checklist on load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderChecklist();
+    });
+  </script>
+</body>
+</html>
