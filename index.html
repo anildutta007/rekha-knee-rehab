@@ -83,6 +83,10 @@
           <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"/></svg>
           Interactive 3D Knee
         </a>
+        <a href="#simulation" class="px-3 py-1.5 rounded-lg text-rose-700 bg-rose-50 hover:bg-rose-100 transition flex items-center gap-1 font-semibold">
+          <svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          Injury Simulation & Restricted Moves
+        </a>
         <a href="#diagnoses" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-sky-600 hover:bg-slate-100 transition">MRI Issues</a>
         <a href="#exercises" class="px-3 py-1.5 rounded-lg text-white bg-sky-600 hover:bg-sky-700 shadow-sm transition flex items-center gap-1.5 font-semibold">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -307,6 +311,165 @@
         </div>
         <div class="text-[11px] text-slate-400 font-medium">
           Zoom: Mouse wheel or two-finger pinch
+        </div>
+      </div>
+    </section>
+
+
+    <!-- NEW SECTION: BIOMECHANICAL INJURY SIMULATION & RESTRICTED MOVEMENTS (FEMALE MODEL) -->
+    <section id="simulation" class="scroll-mt-20">
+      <div class="mb-8">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300 mb-3">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-ping"></span>
+          Biomechanical Simulation & Movement Guide
+        </div>
+        <h3 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900">
+          How Rekha's Injury Occurs & Movements Strictly to Avoid
+        </h3>
+        <p class="text-slate-600 text-sm sm:text-base mt-2 max-w-3xl">
+          Watch interactive simulations of the female body mechanics showing how the horizontal meniscus tear, fat pad pinch, and bursitis develop, followed by clear visual guides of <strong>unsafe movements vs. safe alternatives</strong>.
+        </p>
+      </div>
+
+      <!-- SIMULATION CONTROLS & ANIMATED FEMALE CANVAS CARD -->
+      <div class="bg-gradient-to-br from-slate-950 via-slate-900 to-rose-950 rounded-3xl p-6 sm:p-8 text-white border border-rose-900/60 shadow-2xl mb-10">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+          <div>
+            <span class="text-xs font-bold tracking-wider uppercase text-rose-400">Interactive Simulation Mode</span>
+            <h4 class="text-xl sm:text-2xl font-heading font-bold text-white mt-0.5" id="simTitle">
+              Simulation 1: Plant & Twist (How Posterior Horn Tears Occur)
+            </h4>
+          </div>
+
+          <!-- Simulation Selector Tabs -->
+          <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="setSimulation('pivot')" id="simBtn-pivot" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-rose-600 text-white shadow-md transition">
+              1. Plant & Twist Mechanism
+            </button>
+            <button onclick="setSimulation('kneel')" id="simBtn-kneel" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+              2. Hard Kneeling (Bursitis)
+            </button>
+            <button onclick="setSimulation('hyperextend')" id="simBtn-hyperextend" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+              3. Hyperextension (Fat Pad Pinch)
+            </button>
+          </div>
+        </div>
+
+        <!-- Simulation Viewer & Breakdown Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6 items-center">
+          
+          <!-- Animated 2D Canvas with Female Model -->
+          <div class="lg:col-span-7 bg-slate-950/80 rounded-2xl border border-rose-900/40 p-4 relative overflow-hidden flex flex-col items-center justify-center">
+            <div class="w-full h-[320px] sm:h-[380px] relative flex items-center justify-center">
+              <canvas id="femaleSimCanvas" width="480" height="380" class="w-full h-full block"></canvas>
+            </div>
+            
+            <!-- Play / Pause Controls & Timeline -->
+            <div class="w-full flex items-center justify-between pt-3 border-t border-slate-800/80 text-xs text-slate-400">
+              <div class="flex items-center gap-2">
+                <button onclick="toggleSimPlay()" id="simPlayBtn" class="px-3 py-1 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-semibold transition flex items-center gap-1">
+                  <span id="playIcon">⏸</span> <span id="playText">Pause</span>
+                </button>
+                <button onclick="restartSim()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition">
+                  Restart
+                </button>
+              </div>
+              <span id="simPhaseText" class="font-semibold text-rose-300 text-right">
+                Phase: Torsional Shear Force Applied
+              </span>
+            </div>
+          </div>
+
+          <!-- Explanation & Mechanical Insight Box -->
+          <div class="lg:col-span-5 space-y-4">
+            <div class="bg-white/5 rounded-2xl p-5 border border-white/10">
+              <span class="text-xs font-bold uppercase tracking-wider text-rose-300 block mb-1">What Happens Inside the Knee</span>
+              <h5 class="text-lg font-heading font-bold text-white mb-2" id="simMechanismTitle">
+                Rotational Shear Across the Medial Meniscus
+              </h5>
+              <p class="text-sm text-slate-300 leading-relaxed" id="simMechanismDesc">
+                When the foot is firmly planted on the ground and the body/torso rotates inward or outward, the femur (thigh bone) grinds down on the posterior horn like a pestle in a mortar. Because the posterior horn takes the highest compression during knee flexion, this rotational shearing stress causes horizontal cleavage splitting along the cartilage layers.
+              </p>
+            </div>
+
+            <!-- Clinical Warning Callout -->
+            <div class="bg-rose-950/60 rounded-2xl p-4 border border-rose-700/60 text-xs sm:text-sm text-rose-200">
+              <div class="font-bold flex items-center gap-2 text-rose-300 mb-1">
+                <svg class="w-4 h-4 text-rose-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                Why Rekha Must Avoid This Movement:
+              </div>
+              <p id="simWarningText">
+                Twisting on a planted foot re-opens the horizontal cleavage tear, increases menisco-capsular swelling, and delays the meniscus fibres from settling.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RESTRICTED MOVEMENTS CATALOG (WHAT TO AVOID VS SAFE ALTERNATIVES) -->
+      <div>
+        <h4 class="text-xl sm:text-2xl font-heading font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-rose-600"></span>
+          Specific Movements Strictly Restricted During Recovery
+        </h4>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          <!-- Restriction 1: Deep Squatting & Twisting -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md uppercase tracking-wider">RESTRICTION #1</span>
+                <span class="text-xs font-bold text-rose-600">🚫 FORBIDDEN</span>
+              </div>
+              <h5 class="text-lg font-heading font-bold text-slate-900 mb-2">Deep Squats (>90°) & Loaded Pivots</h5>
+              <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+                Squatting past 90 degrees or pivoting when stepping out of a car severely pinches the posterior horn between the curved femur and tibial shelf.
+              </p>
+            </div>
+            <div class="bg-emerald-50 rounded-2xl p-3.5 border border-emerald-200 text-xs text-emerald-900">
+              <strong class="text-emerald-800 block mb-1">✔ Safe Alternative:</strong>
+              Shallow wall sits (30° to 45° max) and turning your whole body with small steps rather than twisting on a stationary foot.
+            </div>
+          </div>
+
+          <!-- Restriction 2: Direct Kneeling -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md uppercase tracking-wider">RESTRICTION #2</span>
+                <span class="text-xs font-bold text-rose-600">🚫 FORBIDDEN</span>
+              </div>
+              <h5 class="text-lg font-heading font-bold text-slate-900 mb-2">Direct Kneeling on Hard Floors</h5>
+              <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+                Direct weight bearing on the front kneecap compresses the prepatellar bursa sac, creating continuous inflammation and keeping the fluid puffy.
+              </p>
+            </div>
+            <div class="bg-emerald-50 rounded-2xl p-3.5 border border-emerald-200 text-xs text-emerald-900">
+              <strong class="text-emerald-800 block mb-1">✔ Safe Alternative:</strong>
+              Perform all exercises seated or lying flat. If ever needing to reach low, bend at hips or use a thick cushioned gel knee pad.
+            </div>
+          </div>
+
+          <!-- Restriction 3: Violent Locking / Hyperextension -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md uppercase tracking-wider">RESTRICTION #3</span>
+                <span class="text-xs font-bold text-rose-600">🚫 FORBIDDEN</span>
+              </div>
+              <h5 class="text-lg font-heading font-bold text-slate-900 mb-2">Hyperextension & Snapping Knee Back</h5>
+              <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+                Locking the knee backwards into full hyperextension pinches Hoffa’s infrapatellar fat pad against the patellar tendon, causing sharp anterior knee pain.
+              </p>
+            </div>
+            <div class="bg-emerald-50 rounded-2xl p-3.5 border border-emerald-200 text-xs text-emerald-900">
+              <strong class="text-emerald-800 block mb-1">✔ Safe Alternative:</strong>
+              Maintain a "soft knee" (very slight micro-bend) during standing and slow controlled extensions during quad sets without snapping backward.
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -1722,10 +1885,383 @@
       renderChecklist();
     }
 
+
+    // ----------------------------------------------------
+    // FEMALE BIOMECHANICAL SIMULATION ANIMATION ENGINE
+    // ----------------------------------------------------
+    let currentSimType = 'pivot'; // 'pivot', 'kneel', 'hyperextend'
+    let isSimPlaying = true;
+    let simTime = 0;
+
+    const simConfig = {
+      pivot: {
+        title: "Simulation 1: Plant & Twist (How Posterior Horn Meniscus Tears Occur)",
+        mechTitle: "Rotational Shear Across the Medial Meniscus",
+        mechDesc: "When a woman pivots or turns sharply with her right foot firmly planted on the ground, the thigh bone (femur) forcefully rotates on top of the shin bone (tibia). The posterior horn of the medial meniscus gets trapped and crushed between the two bones, creating a horizontal split tear.",
+        warning: "Twisting on a planted foot re-opens the horizontal cleavage tear, increases swelling, and delays healing. Always take small steps when turning.",
+        phaseText: "Phase: Torsional Shear Force Splitting Meniscus"
+      },
+      kneel: {
+        title: "Simulation 2: Direct Kneeling Impact (Prepatellar Bursitis)",
+        mechTitle: "Direct Mechanical Pressure on Front Kneecap Bursa",
+        mechDesc: "When dropping down directly onto the kneecap on hard surfaces (carpet, tile, wood), the prepatellar bursa sac is squashed between the patellar bone and the ground. The bursa fills with reactive fluid, creating swelling and heat in front of the knee.",
+        warning: "Direct pressure keeps the bursa inflamed. Strictly avoid kneeling without thick orthopedic gel padding.",
+        phaseText: "Phase: Direct Compression on Prepatellar Bursa"
+      },
+      hyperextend: {
+        title: "Simulation 3: Hyperextension (Hoffa's Fat Pad Pinch)",
+        mechTitle: "Anterior Impingement of Sensitive Hoffa's Fat Pad",
+        mechDesc: "Hoffa's fat pad sits directly under the kneecap tendon. Forcefully locking or snapping the knee backward (hyperextension) squashes this nerve-rich fat pad against the bone, causing acute irritation, oedema, and anterior knee stabbing pain.",
+        warning: "Snapping knees locked backwards pinches the fat pad repeatedly. Keep a gentle 'soft knee' during daily standing.",
+        phaseText: "Phase: Anterior Impingement of Infrapatellar Fat Pad"
+      }
+    };
+
+    function setSimulation(type) {
+      currentSimType = type;
+      simTime = 0;
+
+      // Update buttons
+      ['pivot', 'kneel', 'hyperextend'].forEach(k => {
+        const btn = document.getElementById('simBtn-' + k);
+        if (k === type) {
+          btn.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-rose-600 text-white shadow-md transition';
+        } else {
+          btn.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition';
+        }
+      });
+
+      // Update text descriptions
+      const c = simConfig[type];
+      document.getElementById('simTitle').innerText = c.title;
+      document.getElementById('simMechanismTitle').innerText = c.mechTitle;
+      document.getElementById('simMechanismDesc').innerText = c.mechDesc;
+      document.getElementById('simWarningText').innerText = c.warning;
+      document.getElementById('simPhaseText').innerText = c.phaseText;
+    }
+
+    function toggleSimPlay() {
+      isSimPlaying = !isSimPlaying;
+      document.getElementById('playText').innerText = isSimPlaying ? 'Pause' : 'Play';
+      document.getElementById('playIcon').innerText = isSimPlaying ? '⏸' : '▶';
+    }
+
+    function restartSim() {
+      simTime = 0;
+      isSimPlaying = true;
+      document.getElementById('playText').innerText = 'Pause';
+      document.getElementById('playIcon').innerText = '⏸';
+    }
+
+    function drawFemaleSimulation() {
+      const canvas = document.getElementById('femaleSimCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      if (isSimPlaying) {
+        simTime += 0.025;
+      }
+
+      if (currentSimType === 'pivot') {
+        drawPivotSimulation(ctx, w, h, simTime);
+      } else if (currentSimType === 'kneel') {
+        drawKneelingSimulation(ctx, w, h, simTime);
+      } else {
+        drawHyperextendSimulation(ctx, w, h, simTime);
+      }
+
+      requestAnimationFrame(drawFemaleSimulation);
+    }
+
+    // 1. Plant & Twist Simulation: Female Figure + Knee Close-up
+    function drawPivotSimulation(ctx, w, h, t) {
+      const cycle = Math.sin(t) * 0.5 + 0.5; // 0 to 1
+
+      // Left Side: Female Figure standing & twisting
+      const fx = 120, fy = 190;
+      // Head with ponytail
+      ctx.fillStyle = '#fbcfe8';
+      ctx.beginPath();
+      ctx.arc(fx, fy - 110, 16, 0, Math.PI * 2);
+      ctx.fill();
+      // Hair ponytail
+      ctx.fillStyle = '#92400e';
+      ctx.beginPath();
+      ctx.arc(fx - 14, fy - 116, 10, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Torso / Athletic Top
+      ctx.fillStyle = '#ec4899';
+      ctx.beginPath();
+      ctx.roundRect(fx - 14, fy - 92, 28, 48, 8);
+      ctx.fill();
+
+      // Hips / Athletic Shorts
+      ctx.fillStyle = '#0f172a';
+      ctx.beginPath();
+      ctx.roundRect(fx - 16, fy - 44, 32, 22, 6);
+      ctx.fill();
+
+      // Left (Safe) Leg
+      ctx.strokeStyle = '#fbcfe8';
+      ctx.lineWidth = 8;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(fx - 10, fy - 22);
+      ctx.lineTo(fx - 24, fy + 45);
+      ctx.lineTo(fx - 24, fy + 120);
+      ctx.stroke();
+
+      // Right (Injured) Leg - Planted Foot & Twisting Femur
+      const twistAngle = Math.sin(t * 1.5) * 0.28;
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 9;
+      ctx.beginPath();
+      ctx.moveTo(fx + 10, fy - 22);
+      const kx = fx + 16 + twistAngle * 35;
+      const ky = fy + 45;
+      ctx.lineTo(kx, ky); // Knee joint
+      ctx.lineTo(fx + 16, fy + 120); // Planted shin & foot
+      ctx.stroke();
+
+      // Shoe / Planted foot indicator
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(fx + 6, fy + 115, 26, 10);
+      ctx.strokeStyle = '#e11d48';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(fx + 4, fy + 113, 30, 14);
+
+      // Curved Red Twist Arrow around knee
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(kx, ky, 22, 0.2, Math.PI * 1.3);
+      ctx.stroke();
+      ctx.fillStyle = '#ef4444';
+      ctx.fillText("TWIST FORCE", fx + 36, ky - 10);
+
+      // Right Side: Magnified Knee Joint Cross Section
+      const mx = 340, my = 175;
+
+      // Card Background
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(mx - 120, my - 130, 240, 260, 16);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#f87171';
+      ctx.font = 'bold 12px "Plus Jakarta Sans"';
+      ctx.textAlign = 'center';
+      ctx.fillText("MEDIAL MENISCUS TEAR ZONE", mx, my - 110);
+
+      // Femur Condyle (moves and grinds with twist)
+      const condyleShift = Math.sin(t * 1.5) * 16;
+      ctx.fillStyle = '#e2e8f0';
+      ctx.beginPath();
+      ctx.ellipse(mx + condyleShift, my - 45, 60, 40, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#64748b';
+      ctx.font = '10px "Plus Jakarta Sans"';
+      ctx.fillText("Femur (Grinding Down)", mx + condyleShift, my - 50);
+
+      // Tibia Plateau (Stationary)
+      ctx.fillStyle = '#cbd5e1';
+      ctx.beginPath();
+      ctx.roundRect(mx - 85, my + 45, 170, 45, 8);
+      ctx.fill();
+      ctx.fillStyle = '#475569';
+      ctx.fillText("Tibia (Planted & Fixed)", mx, my + 72);
+
+      // Meniscus Cushion (Caught in between)
+      ctx.fillStyle = '#fed7aa';
+      ctx.strokeStyle = '#ea580c';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(mx - 25, my + 15, 48, 16, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Animated Horizontal Tear Split Line (pulsing red)
+      const tearGlow = Math.sin(t * 4) * 0.5 + 0.5;
+      ctx.strokeStyle = '#dc2626';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(mx - 60, my + 15);
+      ctx.lineTo(mx + 10, my + 15);
+      ctx.stroke();
+
+      // Shear Force Arrow
+      ctx.fillStyle = '#ef4444';
+      ctx.font = 'bold 11px "Plus Jakarta Sans"';
+      ctx.fillText("Horizontal Split (Shear)", mx - 25, my + 38);
+    }
+
+    // 2. Hard Kneeling Simulation: Direct Impact on Bursa
+    function drawKneelingSimulation(ctx, w, h, t) {
+      // Female kneeling on floor
+      const kx = 140, ky = 220;
+
+      // Floor line
+      ctx.strokeStyle = '#64748b';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(30, ky + 50);
+      ctx.lineTo(450, ky + 50);
+      ctx.stroke();
+
+      // Torso & Head
+      ctx.fillStyle = '#fbcfe8';
+      ctx.beginPath();
+      ctx.arc(kx + 20, ky - 100, 16, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#ec4899';
+      ctx.beginPath();
+      ctx.roundRect(kx + 8, ky - 80, 26, 46, 6);
+      ctx.fill();
+
+      // Kneeling Leg
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 9;
+      ctx.beginPath();
+      ctx.moveTo(kx + 20, ky - 34); // hip
+      ctx.lineTo(kx, ky + 44);     // knee on floor
+      ctx.lineTo(kx - 65, ky + 45); // lower leg along floor
+      ctx.stroke();
+
+      // Impact Ripple on Kneecap
+      const ripple = (simTime * 2) % 20;
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(kx, ky + 44, ripple + 8, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Magnified View of Prepatellar Bursa
+      const mx = 340, my = 180;
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(mx - 110, my - 130, 220, 260, 16);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#fda4af';
+      ctx.font = 'bold 12px "Plus Jakarta Sans"';
+      ctx.textAlign = 'center';
+      ctx.fillText("PREPATELLAR BURSA COMPRESSION", mx, my - 110);
+
+      // Floor in zoom
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(mx - 90, my + 80);
+      ctx.lineTo(mx + 90, my + 80);
+      ctx.stroke();
+
+      // Patella bone pressing down
+      ctx.fillStyle = '#e2e8f0';
+      ctx.beginPath();
+      ctx.roundRect(mx - 40, my - 50, 80, 70, 12);
+      ctx.fill();
+      ctx.fillStyle = '#475569';
+      ctx.font = '10px "Plus Jakarta Sans"';
+      ctx.fillText("Patella (Kneecap)", mx, my - 15);
+
+      // Squashed swollen fluid bursa
+      const squish = Math.sin(t * 2) * 5;
+      ctx.fillStyle = '#f43f5e';
+      ctx.beginPath();
+      ctx.ellipse(mx, my + 55, 45 + squish, 18 - squish, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 11px "Plus Jakarta Sans"';
+      ctx.fillText("Fluid Bursa Compressed!", mx, my + 60);
+
+      ctx.fillStyle = '#f87171';
+      ctx.font = '10px "Plus Jakarta Sans"';
+      ctx.fillText("Hard Surface / Floor", mx, my + 100);
+    }
+
+    // 3. Hyperextension Simulation: Hoffa's Fat Pad Pinch
+    function drawHyperextendSimulation(ctx, w, h, t) {
+      const sx = 140, sy = 190;
+      const snapBack = Math.sin(t * 2) * 12;
+
+      // Leg locking backward past straight
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 9;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(sx, sy - 90); // hip
+      ctx.lineTo(sx - 12 - snapBack, sy); // knee forced backwards
+      ctx.lineTo(sx, sy + 100); // foot
+      ctx.stroke();
+
+      // Pain burst indicator
+      ctx.fillStyle = '#f59e0b';
+      ctx.beginPath();
+      ctx.arc(sx - 12 - snapBack, sy, 14, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Magnified View of Hoffa's Fat Pad
+      const mx = 340, my = 180;
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(mx - 110, my - 130, 220, 260, 16);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#fde68a';
+      ctx.font = 'bold 12px "Plus Jakarta Sans"';
+      ctx.textAlign = 'center';
+      ctx.fillText("HOFFA'S FAT PAD IMPINGEMENT", mx, my - 110);
+
+      // Femur & Tibia locking backward
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillRect(mx - 30, my - 80, 60, 45); // femur
+      ctx.fillRect(mx - 30, my + 30, 60, 45); // tibia
+
+      // Patellar Tendon in front
+      ctx.strokeStyle = '#60a5fa';
+      ctx.lineWidth = 7;
+      ctx.beginPath();
+      ctx.moveTo(mx + 40, my - 60);
+      ctx.lineTo(mx + 40, my + 50);
+      ctx.stroke();
+
+      // Hoffa's Fat pad getting pinched between bone and tendon
+      const pinch = Math.sin(t * 2) * 6;
+      ctx.fillStyle = '#f472b6';
+      ctx.beginPath();
+      ctx.ellipse(mx + 10, my - 5, 26 - pinch, 20 + pinch, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#e11d48';
+      ctx.font = 'bold 11px "Plus Jakarta Sans"';
+      ctx.fillText("Fat Pad Pinched!", mx + 10, my - 2);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px "Plus Jakarta Sans"';
+      ctx.fillText("Patellar Tendon", mx + 50, my + 25);
+    }
+
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
       renderChecklist();
       initDual3DViewers();
+      drawFemaleSimulation();
     });
   </script>
 </body>
