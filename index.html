@@ -7,8 +7,11 @@
   <!-- Google Fonts & Tailwind CDN -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Three.js and OrbitControls for 3D Knee Anatomy Viewer -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -38,28 +41,23 @@
     }
   </script>
   <style>
-    /* Custom smooth scrolling and styling */
     html { scroll-behavior: smooth; }
     .glass-card {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(226, 232, 240, 0.8);
     }
-    .badge-reassure {
-      background: #ecfdf5;
-      color: #065f46;
-      border: 1px solid #a7f3d0;
+    .perspective-canvas {
+      touch-action: none;
     }
-    .badge-caution {
-      background: #fffbeb;
-      color: #92400e;
-      border: 1px solid #fde68a;
+    /* Pulse glow effect for 3D highlighted zones */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.9; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.05); }
     }
-    .badge-focus {
-      background: #eff6ff;
-      color: #1e40af;
-      border: 1px solid #bfdbfe;
+    .glow-dot {
+      animation: pulseGlow 2s infinite ease-in-out;
     }
   </style>
 </head>
@@ -81,12 +79,15 @@
       <!-- Nav Links -->
       <nav class="hidden md:flex items-center space-x-1 sm:space-x-2 text-sm font-medium">
         <a href="#summary" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-sky-600 hover:bg-slate-100 transition">Overview</a>
-        <a href="#diagnoses" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-sky-600 hover:bg-slate-100 transition">MRI Issues Explained</a>
-        <a href="#exercises" class="px-3 py-1.5 rounded-lg text-white bg-sky-600 hover:bg-sky-700 shadow-sm transition flex items-center gap-1.5">
+        <a href="#viewer3d" class="px-3 py-1.5 rounded-lg text-indigo-700 bg-indigo-50 hover:bg-indigo-100 transition flex items-center gap-1 font-semibold">
+          <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"/></svg>
+          Interactive 3D Knee
+        </a>
+        <a href="#diagnoses" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-sky-600 hover:bg-slate-100 transition">MRI Issues</a>
+        <a href="#exercises" class="px-3 py-1.5 rounded-lg text-white bg-sky-600 hover:bg-sky-700 shadow-sm transition flex items-center gap-1.5 font-semibold">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           Exercise Program
         </a>
-        <a href="#faq" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-sky-600 hover:bg-slate-100 transition">FAQ & Tips</a>
       </nav>
     </div>
   </header>
@@ -98,22 +99,25 @@
         <div class="lg:col-span-7">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100/80 text-emerald-800 border border-emerald-300 mb-4">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Personalised Recovery Hub
+            Personalised Recovery Hub & Visual Guide
           </div>
           <h2 class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
-            Understanding Your Right Knee & Your Safe Path to Recovery
+            Understanding Your Right Knee: 3D Visualization & Recovery
           </h2>
           <p class="text-base sm:text-lg text-slate-600 leading-relaxed mb-6">
-            Medical reports can sound intimidating, but having clear clarity brings peace of mind. Here is your clear, plain-English breakdown of your MRI findings, what they actually mean, and a gentle physical therapy regimen with instructional videos.
+            Medical terms can sound alarming, but seeing the anatomy visually brings clear peace of mind. Rotate the <strong>interactive 3D knee model</strong> below, compare <strong>Healthy vs. Rekha's Findings</strong> side-by-side, and follow your guided daily exercises.
           </p>
 
           <div class="flex flex-wrap gap-3">
-            <a href="#exercises" class="inline-flex items-center px-5 py-2.5 rounded-xl font-semibold text-white bg-sky-600 hover:bg-sky-700 shadow-md shadow-sky-600/20 transition gap-2">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              Go to Daily Exercises
+            <a href="#viewer3d" class="inline-flex items-center px-5 py-2.5 rounded-xl font-semibold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-600/20 transition gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
+              Explore Interactive 3D Knee
             </a>
             <a href="#diagnoses" class="inline-flex items-center px-5 py-2.5 rounded-xl font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 transition gap-2">
-              Explore MRI Findings
+              Visual MRI Findings (Healthy vs Tear)
+            </a>
+            <a href="#exercises" class="inline-flex items-center px-5 py-2.5 rounded-xl font-semibold text-sky-700 bg-sky-50 border border-sky-200 hover:bg-sky-100 transition gap-2">
+              Daily Exercises
             </a>
           </div>
         </div>
@@ -123,7 +127,7 @@
           <div class="bg-white rounded-2xl p-6 shadow-xl border border-slate-200/80 relative">
             <div class="flex items-center justify-between pb-4 border-b border-slate-100">
               <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Clinical Consultation Details</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-md bg-sky-50 text-sky-700 border border-sky-100">Review Pending</span>
+              <span class="text-xs font-medium px-2.5 py-1 rounded-md bg-sky-50 text-sky-700 border border-sky-100">Review Ready</span>
             </div>
             
             <div class="mt-4 space-y-3.5 text-sm">
@@ -143,7 +147,7 @@
                 </div>
                 <div>
                   <div class="font-semibold text-slate-800">Key Good News on MRI</div>
-                  <div class="text-slate-600 text-xs sm:text-sm">ACL, PCL, LCL intact. No bone fractures. Meniscus is not displaced/extruded (in stable position).</div>
+                  <div class="text-slate-600 text-xs sm:text-sm">ACL, PCL, LCL intact. No bone fractures. Meniscus is <strong>stable with NO displaced flap and NO extrusion</strong>.</div>
                 </div>
               </div>
 
@@ -153,13 +157,13 @@
                 </div>
                 <div>
                   <div class="font-semibold text-slate-800">Primary Treatment Route</div>
-                  <div class="text-slate-600 text-xs sm:text-sm">Conservative care: Targeted low-impact physio, quadriceps/hamstring stability, swelling management.</div>
+                  <div class="text-slate-600 text-xs sm:text-sm">Conservative care: Guided physiotherapy, quadriceps/hamstring strengthening, and swelling management.</div>
                 </div>
               </div>
             </div>
 
             <div class="mt-5 pt-4 border-t border-slate-100 text-xs text-slate-400 text-center">
-              *Designed specifically for easy daily mobile & tablet reference
+              *Interactive 3D model: Use your mouse or finger to rotate & zoom
             </div>
           </div>
         </div>
@@ -169,6 +173,92 @@
 
   <!-- MAIN CONTENT CONTAINER -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+    <!-- NEW SECTION: INTERACTIVE 3D KNEE ANATOMY VIEWER -->
+    <section id="viewer3d" class="scroll-mt-20">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
+            Interactive 3D Anatomy Model
+          </span>
+          <h3 class="text-2xl sm:text-3xl font-heading font-bold text-slate-900 mt-2">
+            Rotate & Inspect Your Right Knee in 3D
+          </h3>
+          <p class="text-slate-500 text-sm mt-1">
+            Drag with your finger or mouse to rotate 360°, scroll to zoom in/out, and toggle between <strong>Healthy Normal</strong> vs <strong>Rekha's MRI Findings</strong>.
+          </p>
+        </div>
+
+        <!-- Mode Toggle Controls -->
+        <div class="mt-4 md:mt-0 flex items-center p-1 bg-slate-200/80 rounded-2xl">
+          <button id="btnHealthy" onclick="setViewerMode('healthy')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 transition">
+            Healthy Knee
+          </button>
+          <button id="btnFindings" onclick="setViewerMode('findings')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow-md transition flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            Rekha's MRI Highlights
+          </button>
+        </div>
+      </div>
+
+      <!-- 3D Viewer Container Card -->
+      <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-indigo-950 rounded-3xl p-4 sm:p-6 shadow-2xl border border-slate-800 relative overflow-hidden">
+        
+        <!-- Live status bar overlay inside 3D viewer -->
+        <div class="absolute top-6 left-6 z-10 flex flex-wrap gap-2 pointer-events-none">
+          <span id="viewerBadge" class="bg-amber-500/90 text-slate-900 font-bold text-xs px-3 py-1.5 rounded-xl shadow-lg backdrop-blur-md">
+            Showing: Rekha's MRI Issues (Highlighted in Amber/Red)
+          </span>
+          <span class="bg-slate-800/80 text-slate-300 text-xs px-3 py-1.5 rounded-xl border border-slate-700 backdrop-blur-md">
+            Click & Drag to Rotate 360° • Pinch / Scroll to Zoom
+          </span>
+        </div>
+
+        <!-- Structure quick-jump buttons -->
+        <div class="absolute bottom-6 left-6 right-6 z-10 flex items-center justify-center gap-2 flex-wrap">
+          <button onclick="focusStructure('front')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 backdrop-blur-md transition">
+            Front (Patella & Bursa)
+          </button>
+          <button onclick="focusStructure('medial')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 backdrop-blur-md transition">
+            Inner Side (Meniscus Tear & MCL)
+          </button>
+          <button onclick="focusStructure('lateral')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 backdrop-blur-md transition">
+            Outer Side (Healthy Lateral)
+          </button>
+          <button onclick="reset3DCamera()" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600/90 hover:bg-indigo-500 text-white border border-indigo-400 backdrop-blur-md transition">
+            Reset View
+          </button>
+        </div>
+
+        <!-- Canvas element for Three.js -->
+        <div class="w-full h-[440px] sm:h-[500px] rounded-2xl overflow-hidden relative cursor-grab active:cursor-grabbing">
+          <canvas id="kneeCanvas" class="w-full h-full perspective-canvas block"></canvas>
+          <div id="canvasLoader" class="absolute inset-0 flex items-center justify-center bg-slate-900/80 text-white text-sm font-semibold">
+            Loading 3D Anatomy Engine...
+          </div>
+        </div>
+
+        <!-- 3D Legend & Key -->
+        <div class="mt-4 pt-4 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-slate-300">
+          <div class="flex items-center gap-2">
+            <span class="w-3.5 h-3.5 rounded-md bg-[#e2e8f0] border border-slate-400 shrink-0"></span>
+            <span>Femur / Thigh Bone</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-3.5 h-3.5 rounded-md bg-[#cbd5e1] border border-slate-400 shrink-0"></span>
+            <span>Tibia / Shin Bone</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-3.5 h-3.5 rounded-md bg-[#f59e0b] border border-amber-300 shrink-0"></span>
+            <span class="font-medium text-amber-300">Medial Meniscus (Tear Zone)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-3.5 h-3.5 rounded-md bg-[#ef4444] border border-red-300 shrink-0"></span>
+            <span class="font-medium text-rose-300">Patella Wear / Bursitis</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- SECTION 1: REPORT AT A GLANCE (TRAFFIC LIGHT SYSTEM) -->
     <section id="summary" class="scroll-mt-20">
@@ -256,12 +346,12 @@
       </div>
     </section>
 
-    <!-- SECTION 2: DETAILED SECTIONS FOR EACH ISSUE IDENTIFIED -->
+    <!-- SECTION 2: DETAILED SECTIONS FOR EACH ISSUE IDENTIFIED (WITH HEALTHY VS REKHA'S FINDINGS DIAGRAMS) -->
     <section id="diagnoses" class="scroll-mt-20">
       <div class="mb-8">
-        <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Deep Dive</span>
-        <h3 class="text-2xl sm:text-3xl font-heading font-bold text-slate-900 mt-1">Detailed Breakdown of Each Issue</h3>
-        <p class="text-slate-500 text-sm mt-1">Select any tab or scroll through each specific area found on your MRI.</p>
+        <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Visual Clinical Breakdown</span>
+        <h3 class="text-2xl sm:text-3xl font-heading font-bold text-slate-900 mt-1">Detailed Findings & Side-by-Side Comparison</h3>
+        <p class="text-slate-500 text-sm mt-1">Each issue is paired with an anatomical comparison showing exactly what normal looks like versus what was found on Rekha's MRI.</p>
       </div>
 
       <!-- Category Filter Pills -->
@@ -273,22 +363,93 @@
         <button onclick="filterIssues('ligament')" class="issue-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition" data-filter="ligament">MCL & Joint Fluid</button>
       </div>
 
-      <div class="space-y-6" id="issuesList">
+      <div class="space-y-8" id="issuesList">
 
         <!-- ISSUE 1: Medial Meniscal Tear -->
-        <div class="issue-item bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm transition hover:shadow-md" data-category="meniscus">
+        <div class="issue-item bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md transition hover:shadow-lg" data-category="meniscus">
           <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
             <div class="flex items-start gap-4">
-              <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xl shrink-0">
+              <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xl shrink-0 shadow-sm">
                 1
               </div>
               <div>
                 <div class="flex items-center gap-2.5 flex-wrap">
-                  <h4 class="text-xl font-heading font-bold text-slate-900">Medial Meniscal Horizontal Tear (Posterior Horn)</h4>
+                  <h4 class="text-xl sm:text-2xl font-heading font-bold text-slate-900">Medial Meniscal Horizontal Tear (Posterior Horn)</h4>
                   <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800">Primary Diagnosis</span>
                 </div>
                 <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Horizontal tear extending to tibial surface with menisco-capsular oedema. No displaced flap.</p>
               </div>
+            </div>
+            <button onclick="focusStructure('medial')" class="text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-xl border border-indigo-200 transition flex items-center gap-1 self-start">
+              <span>View in 3D</span> &uarr;
+            </button>
+          </div>
+
+          <!-- Side-by-side Visual comparison: Healthy vs Rekha's Findings -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+            <!-- Healthy Comparison Box -->
+            <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-4 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                    Healthy Normal Meniscus
+                  </span>
+                  <span class="text-[11px] font-semibold text-emerald-700 bg-white px-2 py-0.5 rounded-md border border-emerald-200">Intact Wedge</span>
+                </div>
+                <!-- SVG Diagram for Healthy Meniscus -->
+                <div class="w-full h-36 bg-white rounded-xl border border-emerald-200 p-2 flex items-center justify-center relative overflow-hidden">
+                  <svg viewBox="0 0 280 120" class="w-full h-full max-w-[260px]">
+                    <!-- Tibia plateau -->
+                    <rect x="20" y="85" width="240" height="25" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                    <text x="140" y="102" font-size="10" text-anchor="middle" fill="#64748b" font-weight="600">Shin Bone (Tibia Plateau)</text>
+                    <!-- Healthy Meniscus Crescent / Wedge -->
+                    <path d="M 40 85 C 45 45, 95 40, 130 65 C 105 75, 75 85, 40 85 Z" fill="#6ee7b7" stroke="#059669" stroke-width="2.5"/>
+                    <path d="M 240 85 C 235 45, 185 40, 150 65 C 175 75, 205 85, 240 85 Z" fill="#a7f3d0" stroke="#10b981" stroke-width="2"/>
+                    <!-- Labels -->
+                    <circle cx="85" cy="62" r="3" fill="#047857"/>
+                    <text x="85" y="32" font-size="9" text-anchor="middle" fill="#065f46" font-weight="bold">Continuous, Solid Fibres</text>
+                    <line x1="85" y1="36" x2="85" y2="58" stroke="#047857" stroke-width="1.2" stroke-dasharray="2,2"/>
+                  </svg>
+                </div>
+              </div>
+              <p class="text-xs text-emerald-900 mt-2">
+                Smooth, rubbery C-shaped fibrocartilage wedge with solid unbroken tissue fibres absorbing 100% of downward impact.
+              </p>
+            </div>
+
+            <!-- Rekha's Findings Box -->
+            <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-4 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                    Rekha's Finding: Horizontal Tear
+                  </span>
+                  <span class="text-[11px] font-semibold text-amber-800 bg-white px-2 py-0.5 rounded-md border border-amber-200">Stable, Non-Displaced</span>
+                </div>
+                <!-- SVG Diagram for Rekha's Tear -->
+                <div class="w-full h-36 bg-white rounded-xl border border-amber-200 p-2 flex items-center justify-center relative overflow-hidden">
+                  <svg viewBox="0 0 280 120" class="w-full h-full max-w-[260px]">
+                    <!-- Tibia plateau -->
+                    <rect x="20" y="85" width="240" height="25" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                    <text x="140" y="102" font-size="10" text-anchor="middle" fill="#64748b" font-weight="600">Shin Bone (Tibia Plateau)</text>
+                    <!-- Meniscus with horizontal split -->
+                    <path d="M 40 85 C 45 45, 95 40, 130 65 C 105 75, 75 85, 40 85 Z" fill="#fed7aa" stroke="#ea580c" stroke-width="2"/>
+                    <!-- Horizontal split tear line -->
+                    <path d="M 52 70 Q 80 62 110 68" stroke="#dc2626" stroke-width="3" stroke-dasharray="3,1" fill="none"/>
+                    <!-- Oedema glow around edges -->
+                    <ellipse cx="45" cy="80" rx="14" ry="7" fill="#f87171" opacity="0.4"/>
+                    <!-- Labels -->
+                    <text x="85" y="24" font-size="9" text-anchor="middle" fill="#b45309" font-weight="bold">Horizontal Cleavage Tear</text>
+                    <text x="85" y="36" font-size="8" text-anchor="middle" fill="#b91c1c">(Extends toward tibia surface)</text>
+                    <line x1="85" y1="40" x2="85" y2="65" stroke="#dc2626" stroke-width="1.2"/>
+                  </svg>
+                </div>
+              </div>
+              <p class="text-xs text-amber-900 mt-2">
+                A horizontal cleavage line splits upper and lower layers. <strong>Key relief:</strong> Cushion is completely in place (no displaced flap or locking fragment).
+              </p>
             </div>
           </div>
 
@@ -303,7 +464,7 @@
                 <strong>Crucial positive note:</strong> The MRI confirms there is <em>no detached flap</em> and <em>no meniscal extrusion</em> (it has not slipped out of place). It stays where it belongs, meaning conservative rehabilitation with muscle-strengthening has a high chance of success!
               </p>
             </div>
-            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/70">
               <h5 class="text-sm font-bold text-slate-800 mb-2">Care Advice & Exercises</h5>
               <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
                 <li class="flex items-start gap-2">
@@ -325,17 +486,81 @@
         </div>
 
         <!-- ISSUE 2: Grade 4 Parapatellar Chondrolysis -->
-        <div class="issue-item bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm transition hover:shadow-md" data-category="cartilage">
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-xl shrink-0">
-              2
-            </div>
-            <div>
-              <div class="flex items-center gap-2.5 flex-wrap">
-                <h4 class="text-xl font-heading font-bold text-slate-900">Grade 4 Parapatellar Chondrolysis</h4>
-                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-800">Cartilage Wear</span>
+        <div class="issue-item bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md transition hover:shadow-lg" data-category="cartilage">
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-xl shrink-0 shadow-sm">
+                2
               </div>
-              <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Full-thickness loss of cartilage alongside the kneecap (patella). Note: Tibiofemoral cartilage is intact.</p>
+              <div>
+                <div class="flex items-center gap-2.5 flex-wrap">
+                  <h4 class="text-xl sm:text-2xl font-heading font-bold text-slate-900">Grade 4 Parapatellar Chondrolysis (Kneecap Cartilage)</h4>
+                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-800">Cartilage Wear</span>
+                </div>
+                <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Full-thickness loss of cartilage alongside the kneecap. Note: Main tibiofemoral cartilage is intact!</p>
+              </div>
+            </div>
+            <button onclick="focusStructure('front')" class="text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-xl border border-indigo-200 transition flex items-center gap-1 self-start">
+              <span>View in 3D</span> &uarr;
+            </button>
+          </div>
+
+          <!-- Visual Comparison: Healthy Cartilage vs Rekha's Parapatellar Wear -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+            <!-- Healthy Normal Kneecap Cartilage -->
+            <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-4 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                    Healthy Patellar Cartilage
+                  </span>
+                  <span class="text-[11px] font-semibold text-emerald-700 bg-white px-2 py-0.5 rounded-md border border-emerald-200">Full 3-4mm Cushion</span>
+                </div>
+                <div class="w-full h-36 bg-white rounded-xl border border-emerald-200 p-2 flex items-center justify-center relative overflow-hidden">
+                  <svg viewBox="0 0 280 120" class="w-full h-full max-w-[260px]">
+                    <!-- Kneecap bone -->
+                    <path d="M 70 25 C 100 20, 180 20, 210 25 C 200 65, 160 85, 140 90 C 120 85, 80 65, 70 25 Z" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                    <text x="140" y="48" font-size="10" text-anchor="middle" fill="#64748b" font-weight="600">Patella (Kneecap Bone)</text>
+                    <!-- Thick smooth cartilage layer on underside -->
+                    <path d="M 85 45 C 100 65, 130 80, 140 82 C 150 80, 180 65, 195 45 C 190 60, 160 75, 140 76 C 120 75, 90 60, 85 45 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="2"/>
+                    <circle cx="140" cy="78" r="3" fill="#0284c7"/>
+                    <text x="140" y="105" font-size="9" text-anchor="middle" fill="#0369a1" font-weight="bold">Thick Smooth Gliding Surface</text>
+                  </svg>
+                </div>
+              </div>
+              <p class="text-xs text-emerald-900 mt-2">
+                Cartilage is thick and glassy-smooth, allowing the kneecap to glide effortlessly over the femur groove with zero resistance.
+              </p>
+            </div>
+
+            <!-- Rekha's Parapatellar Chondrolysis -->
+            <div class="bg-orange-50/70 border border-orange-200 rounded-2xl p-4 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider text-orange-900 flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-orange-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                    Rekha's Finding: Grade 4 Wear
+                  </span>
+                  <span class="text-[11px] font-semibold text-orange-800 bg-white px-2 py-0.5 rounded-md border border-orange-200">Side Edge Wear</span>
+                </div>
+                <div class="w-full h-36 bg-white rounded-xl border border-orange-200 p-2 flex items-center justify-center relative overflow-hidden">
+                  <svg viewBox="0 0 280 120" class="w-full h-full max-w-[260px]">
+                    <!-- Kneecap bone -->
+                    <path d="M 70 25 C 100 20, 180 20, 210 25 C 200 65, 160 85, 140 90 C 120 85, 80 65, 70 25 Z" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                    <text x="140" y="48" font-size="10" text-anchor="middle" fill="#64748b" font-weight="600">Patella (Kneecap Bone)</text>
+                    <!-- Cartilage with notch wear on parapatellar edge -->
+                    <path d="M 85 45 C 95 55, 115 68, 140 76 C 160 72, 180 60, 195 45 C 185 55, 160 62, 140 65 C 115 62, 95 52, 85 45 Z" fill="#7dd3fc" stroke="#0284c7" stroke-width="1.5"/>
+                    <!-- Grade 4 Defect (wearing down to bone on parapatellar margin) -->
+                    <path d="M 170 54 Q 185 45 192 48 Q 185 58 172 57 Z" fill="#ea580c" stroke="#dc2626" stroke-width="2"/>
+                    <text x="195" y="85" font-size="9" text-anchor="middle" fill="#c2410c" font-weight="bold">Parapatellar Margin Wear</text>
+                    <line x1="185" y1="58" x2="185" y2="75" stroke="#ea580c" stroke-width="1.2"/>
+                  </svg>
+                </div>
+              </div>
+              <p class="text-xs text-orange-900 mt-2">
+                Cartilage on the side edge (parapatellar) has worn thin. Quad training (VMO) re-centers the kneecap so it glides away from this area.
+              </p>
             </div>
           </div>
 
@@ -350,7 +575,7 @@
                 The great news is that the <strong>main joint cartilage</strong> (tibiofemoral) between your upper leg bone and shin bone is fully preserved! Strengthening the vastus medialis (inner quad) and glutes improves kneecap tracking so it glides smoothly without rubbing.
               </p>
             </div>
-            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/70">
               <h5 class="text-sm font-bold text-slate-800 mb-2">Care Advice & Exercises</h5>
               <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
                 <li class="flex items-start gap-2">
@@ -372,17 +597,62 @@
         </div>
 
         <!-- ISSUE 3: Hoffa's Fat Pad Oedema -->
-        <div class="issue-item bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm transition hover:shadow-md" data-category="inflammation">
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xl shrink-0">
-              3
-            </div>
-            <div>
-              <div class="flex items-center gap-2.5 flex-wrap">
-                <h4 class="text-xl font-heading font-bold text-slate-900">Hoffa’s Fat Pad Mild Oedema</h4>
-                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800">Irritation / Pinch</span>
+        <div class="issue-item bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md transition hover:shadow-lg" data-category="inflammation">
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xl shrink-0 shadow-sm">
+                3
               </div>
-              <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Mild superolateral oedema (swelling) within Hoffa's infrapatellar fat pad.</p>
+              <div>
+                <div class="flex items-center gap-2.5 flex-wrap">
+                  <h4 class="text-xl sm:text-2xl font-heading font-bold text-slate-900">Hoffa’s Fat Pad Mild Oedema</h4>
+                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800">Irritation / Pinch</span>
+                </div>
+                <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Mild superolateral oedema (swelling) within Hoffa's infrapatellar fat pad.</p>
+              </div>
+            </div>
+            <button onclick="focusStructure('front')" class="text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-xl border border-indigo-200 transition flex items-center gap-1 self-start">
+              <span>View in 3D</span> &uarr;
+            </button>
+          </div>
+
+          <!-- Comparison Diagrams: Normal Hoffa's vs Oedematous -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+            <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-4 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5 mb-2">
+                  <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                  Calm Normal Fat Pad
+                </span>
+                <div class="w-full h-32 bg-white rounded-xl border border-emerald-200 p-2 flex items-center justify-center">
+                  <svg viewBox="0 0 240 100" class="w-full h-full max-w-[220px]">
+                    <rect x="20" y="10" width="70" height="80" rx="8" fill="#e2e8f0" stroke="#94a3b8"/>
+                    <text x="55" y="55" font-size="9" text-anchor="middle" fill="#64748b">Patella</text>
+                    <path d="M 100 20 Q 170 30 150 80 Q 110 70 100 20 Z" fill="#fef08a" stroke="#eab308" stroke-width="1.5"/>
+                    <text x="145" y="55" font-size="9" fill="#854d0e" font-weight="bold">Soft, Uninflamed</text>
+                  </svg>
+                </div>
+              </div>
+              <p class="text-xs text-emerald-900 mt-2">Natural soft fatty pillow behind patellar tendon with no pinching or nerve irritation.</p>
+            </div>
+
+            <div class="bg-purple-50/70 border border-purple-200 rounded-2xl p-4 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-purple-900 flex items-center gap-1.5 mb-2">
+                  <svg class="w-4 h-4 text-purple-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                  Rekha's Finding: Mild Oedema
+                </span>
+                <div class="w-full h-32 bg-white rounded-xl border border-purple-200 p-2 flex items-center justify-center">
+                  <svg viewBox="0 0 240 100" class="w-full h-full max-w-[220px]">
+                    <rect x="20" y="10" width="70" height="80" rx="8" fill="#e2e8f0" stroke="#94a3b8"/>
+                    <text x="55" y="55" font-size="9" text-anchor="middle" fill="#64748b">Patella</text>
+                    <path d="M 100 20 Q 170 30 150 80 Q 110 70 100 20 Z" fill="#fbcfe8" stroke="#db2777" stroke-width="2"/>
+                    <circle cx="130" cy="45" r="14" fill="#a855f7" opacity="0.3"/>
+                    <text x="145" y="55" font-size="9" fill="#701a75" font-weight="bold">Swollen & Sensitive</text>
+                  </svg>
+                </div>
+              </div>
+              <p class="text-xs text-purple-900 mt-2">Fluid infiltration makes it plump, creating a pinching sensation when straightening knee fully.</p>
             </div>
           </div>
 
@@ -397,7 +667,7 @@
                 Because this fat pad is sensitive, aggressive hyperextension (locking the knee backward) should be avoided while it calms down. Cold therapy and gentle range-of-motion work quickly alleviate this swelling.
               </p>
             </div>
-            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/70">
               <h5 class="text-sm font-bold text-slate-800 mb-2">Care Advice & Exercises</h5>
               <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
                 <li class="flex items-start gap-2">
@@ -419,17 +689,63 @@
         </div>
 
         <!-- ISSUE 4: Prepatellar Bursitis -->
-        <div class="issue-item bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm transition hover:shadow-md" data-category="inflammation">
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xl shrink-0">
-              4
-            </div>
-            <div>
-              <div class="flex items-center gap-2.5 flex-wrap">
-                <h4 class="text-xl font-heading font-bold text-slate-900">Prepatellar Bursitis</h4>
-                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800">Front Knee Fluid</span>
+        <div class="issue-item bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md transition hover:shadow-lg" data-category="inflammation">
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xl shrink-0 shadow-sm">
+                4
               </div>
-              <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Fluid and inflammation in the bursa sac located on the front surface of the kneecap.</p>
+              <div>
+                <div class="flex items-center gap-2.5 flex-wrap">
+                  <h4 class="text-xl sm:text-2xl font-heading font-bold text-slate-900">Prepatellar Bursitis (Kneecap Cushion Swelling)</h4>
+                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800">Front Knee Fluid</span>
+                </div>
+                <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Fluid and inflammation in the bursa sac located directly on the front surface of the kneecap.</p>
+              </div>
+            </div>
+            <button onclick="focusStructure('front')" class="text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-xl border border-indigo-200 transition flex items-center gap-1 self-start">
+              <span>View in 3D</span> &uarr;
+            </button>
+          </div>
+
+          <!-- Comparison Diagrams: Normal Bursa vs Prepatellar Bursitis -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+            <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-4 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5 mb-2">
+                  <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                  Normal Flat Bursa
+                </span>
+                <div class="w-full h-32 bg-white rounded-xl border border-emerald-200 p-2 flex items-center justify-center">
+                  <svg viewBox="0 0 240 100" class="w-full h-full max-w-[220px]">
+                    <rect x="70" y="15" width="80" height="70" rx="8" fill="#e2e8f0" stroke="#94a3b8"/>
+                    <text x="110" y="55" font-size="9" text-anchor="middle" fill="#64748b">Patella Bone</text>
+                    <!-- Thin flat bursa slit -->
+                    <path d="M 58 25 Q 56 50 58 75" stroke="#0ea5e9" stroke-width="2.5" fill="none"/>
+                    <text x="35" y="55" font-size="8" text-anchor="middle" fill="#0369a1" font-weight="bold">Thin Slit</text>
+                  </svg>
+                </div>
+              </div>
+              <p class="text-xs text-emerald-900 mt-2">Almost paper-thin, containing just enough natural lubricant to prevent skin chafing.</p>
+            </div>
+
+            <div class="bg-rose-50/70 border border-rose-200 rounded-2xl p-4 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-rose-900 flex items-center gap-1.5 mb-2">
+                  <svg class="w-4 h-4 text-rose-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                  Rekha's Finding: Inflamed Bursitis
+                </span>
+                <div class="w-full h-32 bg-white rounded-xl border border-rose-200 p-2 flex items-center justify-center">
+                  <svg viewBox="0 0 240 100" class="w-full h-full max-w-[220px]">
+                    <rect x="80" y="15" width="80" height="70" rx="8" fill="#e2e8f0" stroke="#94a3b8"/>
+                    <text x="120" y="55" font-size="9" text-anchor="middle" fill="#64748b">Patella Bone</text>
+                    <!-- Distended fluid sac -->
+                    <ellipse cx="62" cy="50" rx="14" ry="26" fill="#fecdd3" stroke="#e11d48" stroke-width="2"/>
+                    <text x="62" y="54" font-size="8" text-anchor="middle" fill="#9f1239" font-weight="bold">Fluid Sac</text>
+                  </svg>
+                </div>
+              </div>
+              <p class="text-xs text-rose-900 mt-2">Fluid buildup creates a visible/palpable soft bulge in front of kneecap. Fully settles with rest and ice.</p>
             </div>
           </div>
 
@@ -444,7 +760,7 @@
                 Bursitis is very treatable conservatively through rest, ice, compression, and keeping excessive direct pressure off the front of the knee.
               </p>
             </div>
-            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/70">
               <h5 class="text-sm font-bold text-slate-800 mb-2">Care Advice & Exercises</h5>
               <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
                 <li class="flex items-start gap-2">
@@ -461,18 +777,23 @@
         </div>
 
         <!-- ISSUE 5: MCL Low-Grade Chronic Sprain -->
-        <div class="issue-item bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm transition hover:shadow-md" data-category="ligament">
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xl shrink-0">
-              5
-            </div>
-            <div>
-              <div class="flex items-center gap-2.5 flex-wrap">
-                <h4 class="text-xl font-heading font-bold text-slate-900">MCL (Medial Collateral Ligament) Low-Grade Chronic Sprain</h4>
-                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800">Mild Ligament Strain</span>
+        <div class="issue-item bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md transition hover:shadow-lg" data-category="ligament">
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xl shrink-0 shadow-sm">
+                5
               </div>
-              <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Low-grade, chronic sprain. Ligament fibres remain intact with stability intact.</p>
+              <div>
+                <div class="flex items-center gap-2.5 flex-wrap">
+                  <h4 class="text-xl sm:text-2xl font-heading font-bold text-slate-900">MCL (Medial Collateral Ligament) Low-Grade Chronic Sprain</h4>
+                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800">Mild Ligament Strain</span>
+                </div>
+                <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Low-grade, chronic sprain. Ligament fibres remain intact with internal joint stability preserved.</p>
+              </div>
             </div>
+            <button onclick="focusStructure('medial')" class="text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-xl border border-indigo-200 transition flex items-center gap-1 self-start">
+              <span>View in 3D</span> &uarr;
+            </button>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6 pt-5 border-t border-slate-100">
@@ -486,7 +807,7 @@
                 Rebuilding hip abductor strength (side glutes) prevents the knee from caving inwards (valgus collapse), giving your MCL complete protection.
               </p>
             </div>
-            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/70">
               <h5 class="text-sm font-bold text-slate-800 mb-2">Care Advice & Exercises</h5>
               <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
                 <li class="flex items-start gap-2">
@@ -508,17 +829,19 @@
         </div>
 
         <!-- ISSUE 6: Joint Effusion & Menisco-Capsular Oedema -->
-        <div class="issue-item bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm transition hover:shadow-md" data-category="ligament">
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-xl shrink-0">
-              6
-            </div>
-            <div>
-              <div class="flex items-center gap-2.5 flex-wrap">
-                <h4 class="text-xl font-heading font-bold text-slate-900">Small Joint Effusion & Posteromedial Swelling</h4>
-                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800">Reactive Fluid</span>
+        <div class="issue-item bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md transition hover:shadow-lg" data-category="ligament">
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-xl shrink-0 shadow-sm">
+                6
               </div>
-              <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Small intra-articular fluid buildup. Reassuring: No Baker’s cyst detected.</p>
+              <div>
+                <div class="flex items-center gap-2.5 flex-wrap">
+                  <h4 class="text-xl sm:text-2xl font-heading font-bold text-slate-900">Small Joint Effusion & Posteromedial Swelling</h4>
+                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800">Reactive Fluid</span>
+                </div>
+                <p class="text-xs text-slate-400 mt-0.5">MRI Finding: Small intra-articular fluid buildup. Reassuring: No Baker’s cyst detected.</p>
+              </div>
             </div>
           </div>
 
@@ -533,7 +856,7 @@
                 Notice also that there is <strong>no Baker's cyst</strong> (no fluid bulge protruding into the back hollow of your knee). As the surrounding tissues strengthen, the joint absorbs this fluid naturally.
               </p>
             </div>
-            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/70">
+            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/70">
               <h5 class="text-sm font-bold text-slate-800 mb-2">Care Advice & Exercises</h5>
               <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
                 <li class="flex items-start gap-2">
@@ -567,21 +890,21 @@
       </div>
 
       <!-- Golden Rules Banner -->
-      <div class="bg-gradient-to-r from-sky-900 to-slate-900 text-white rounded-2xl p-6 mb-10 shadow-lg">
+      <div class="bg-gradient-to-r from-sky-900 to-slate-900 text-white rounded-3xl p-6 sm:p-7 mb-10 shadow-lg">
         <h4 class="font-heading font-bold text-lg text-sky-200 mb-2 flex items-center gap-2">
           <svg class="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
           Rekha's Golden Rules for Exercise:
         </h4>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs sm:text-sm text-slate-300 mt-3">
-          <div class="bg-white/10 p-3 rounded-xl">
+          <div class="bg-white/10 p-3.5 rounded-xl">
             <span class="font-bold text-white block mb-1">1. Pain-Free Range:</span>
             A mild muscle burn is normal; sharp pain or pinch is your signal to back off.
           </div>
-          <div class="bg-white/10 p-3 rounded-xl">
+          <div class="bg-white/10 p-3.5 rounded-xl">
             <span class="font-bold text-white block mb-1">2. Smooth & Controlled:</span>
             Never bounce or snap your knee locked. Focus on slow 3-second counts.
           </div>
-          <div class="bg-white/10 p-3 rounded-xl">
+          <div class="bg-white/10 p-3.5 rounded-xl">
             <span class="font-bold text-white block mb-1">3. Ice Afterwards:</span>
             Apply a cold pack wrapped in a towel for 10-15 minutes if warmth or puffiness occurs.
           </div>
@@ -592,7 +915,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
         <!-- EXERCISE 1: Quad Sets (Isometric) -->
-        <div id="ex-quad-sets" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+        <div id="ex-quad-sets" class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
           <div>
             <div class="p-6">
               <div class="flex items-center justify-between mb-3">
@@ -604,7 +927,7 @@
                 Helps reactivate your front thigh muscles without moving the joint, protecting both the meniscus and patellar cartilage from friction.
               </p>
 
-              <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
+              <div class="bg-slate-50 rounded-2xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
                 <p><strong>How to do it:</strong></p>
                 <ol class="list-decimal list-inside space-y-1 text-slate-600">
                   <li>Sit on your bed or floor with your right leg stretched out flat.</li>
@@ -619,7 +942,6 @@
             </div>
           </div>
 
-          <!-- Video embed / link section -->
           <div class="bg-slate-50 p-4 border-t border-slate-100">
             <a href="https://www.youtube.com/results?search_query=quad+sets+isometric+knee+physical+therapy" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition shadow-sm">
               <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
@@ -629,7 +951,7 @@
         </div>
 
         <!-- EXERCISE 2: Straight Leg Raise -->
-        <div id="ex-straight-leg" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+        <div id="ex-straight-leg" class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
           <div>
             <div class="p-6">
               <div class="flex items-center justify-between mb-3">
@@ -641,7 +963,7 @@
                 Strengthens the entire anterior chain and hip flexor without bending the knee joint, preventing friction against the posterior horn meniscus tear.
               </p>
 
-              <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
+              <div class="bg-slate-50 rounded-2xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
                 <p><strong>How to do it:</strong></p>
                 <ol class="list-decimal list-inside space-y-1 text-slate-600">
                   <li>Lie flat on your back. Bend your left (good) knee with foot on the floor.</li>
@@ -656,7 +978,6 @@
             </div>
           </div>
 
-          <!-- Video embed / link section -->
           <div class="bg-slate-50 p-4 border-t border-slate-100">
             <a href="https://www.youtube.com/results?search_query=straight+leg+raise+knee+rehab+exercise" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition shadow-sm">
               <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
@@ -666,7 +987,7 @@
         </div>
 
         <!-- EXERCISE 3: Gentle Heel Slides -->
-        <div id="ex-heel-slides" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+        <div id="ex-heel-slides" class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
           <div>
             <div class="p-6">
               <div class="flex items-center justify-between mb-3">
@@ -678,7 +999,7 @@
                 Helps pump stagnant fluid (effusion & fat pad irritation) out of the knee joint while gently restoring bending flexibility.
               </p>
 
-              <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
+              <div class="bg-slate-50 rounded-2xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
                 <p><strong>How to do it:</strong></p>
                 <ol class="list-decimal list-inside space-y-1 text-slate-600">
                   <li>Sit or lie on a smooth surface wearing socks (or use a small towel under heel).</li>
@@ -702,7 +1023,7 @@
         </div>
 
         <!-- EXERCISE 4: Clamshells for MCL & Knee Tracking -->
-        <div id="ex-clamshells" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+        <div id="ex-clamshells" class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
           <div>
             <div class="p-6">
               <div class="flex items-center justify-between mb-3">
@@ -714,7 +1035,7 @@
                 Strengthens hip abductors. This prevents your knee from collapsing inward during walking, taking the tension off your sprained MCL and patellar groove.
               </p>
 
-              <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
+              <div class="bg-slate-50 rounded-2xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
                 <p><strong>How to do it:</strong></p>
                 <ol class="list-decimal list-inside space-y-1 text-slate-600">
                   <li>Lie on your left (uninjured) side with both knees bent at a 45-degree angle.</li>
@@ -738,7 +1059,7 @@
         </div>
 
         <!-- EXERCISE 5: Glute Bridges -->
-        <div id="ex-bridges" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+        <div id="ex-bridges" class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
           <div>
             <div class="p-6">
               <div class="flex items-center justify-between mb-3">
@@ -750,7 +1071,7 @@
                 Strengthens posterior chain without placing direct shearing forces across the knee joint or patella.
               </p>
 
-              <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
+              <div class="bg-slate-50 rounded-2xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
                 <p><strong>How to do it:</strong></p>
                 <ol class="list-decimal list-inside space-y-1 text-slate-600">
                   <li>Lie on your back with both knees bent, feet flat hip-width apart.</li>
@@ -774,7 +1095,7 @@
         </div>
 
         <!-- EXERCISE 6: Seated Long Arc Quad / Terminal Knee Extension -->
-        <div id="ex-seated-ext" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+        <div id="ex-seated-ext" class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
           <div>
             <div class="p-6">
               <div class="flex items-center justify-between mb-3">
@@ -786,7 +1107,7 @@
                 Helps strengthen the inner quadriceps muscle that controls kneecap positioning, keeping it centered away from the worn cartilage zone.
               </p>
 
-              <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
+              <div class="bg-slate-50 rounded-2xl p-4 space-y-2 text-xs sm:text-sm text-slate-700 mb-5">
                 <p><strong>How to do it:</strong></p>
                 <ol class="list-decimal list-inside space-y-1 text-slate-600">
                   <li>Sit upright in a supportive chair with knees bent at 90 degrees.</li>
@@ -813,9 +1134,9 @@
     </section>
 
     <!-- SECTION 4: CLINICAL QUESTIONS FOR MR. STEPHEN PALMER -->
-    <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/90 shadow-sm">
+    <section class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md">
       <div class="flex items-start gap-4 mb-6">
-        <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
+        <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
         </div>
         <div>
@@ -826,7 +1147,7 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700">
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3">
           <span class="text-sky-600 font-bold text-base">1.</span>
           <div>
             <strong class="text-slate-900">Symptom Correlation:</strong>
@@ -834,7 +1155,7 @@
           </div>
         </div>
 
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3">
           <span class="text-sky-600 font-bold text-base">2.</span>
           <div>
             <strong class="text-slate-900">Physiotherapy Prescription:</strong>
@@ -842,7 +1163,7 @@
           </div>
         </div>
 
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3">
           <span class="text-sky-600 font-bold text-base">3.</span>
           <div>
             <strong class="text-slate-900">Targeted Injections:</strong>
@@ -850,7 +1171,7 @@
           </div>
         </div>
 
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3">
           <span class="text-sky-600 font-bold text-base">4.</span>
           <div>
             <strong class="text-slate-900">Surgical Indications:</strong>
@@ -861,7 +1182,7 @@
     </section>
 
     <!-- SECTION 5: DAILY REHAB TRACKER -->
-    <section class="bg-gradient-to-br from-slate-900 to-sky-950 text-white rounded-2xl p-6 sm:p-8 shadow-xl">
+    <section class="bg-gradient-to-br from-slate-900 to-sky-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-800">
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-sky-400">Interactive Tool</span>
@@ -889,9 +1210,388 @@
     </div>
   </footer>
 
-  <!-- INTERACTIVITY SCRIPT -->
+  <!-- THREE.JS 3D KNEE ENGINE & APP SCRIPTS -->
   <script>
-    // Issue Category Filtering
+    // ----------------------------------------------------
+    // THREE.JS 3D KNEE ANATOMY ENGINE
+    // ----------------------------------------------------
+    let scene, camera, renderer, controls;
+    let kneeGroup;
+    let femurMesh, tibiaMesh, fibulaMesh, patellaMesh;
+    let medialMeniscus, lateralMeniscus;
+    let mclMesh, lclMesh, aclMesh, pclMesh;
+    let hoffaFatPad, prepatellarBursa;
+    let tearHighlight, chondrolysisHighlight;
+    let currentMode = 'findings'; // 'findings' or 'healthy'
+
+    function init3DViewer() {
+      const container = document.getElementById('kneeCanvas');
+      if (!container) return;
+
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      // 1. Scene setup
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x0a0f1d); // Deep anatomical dark blue
+
+      // 2. Camera setup
+      camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+      camera.position.set(4, 2, 7);
+
+      // 3. Renderer setup
+      renderer = new THREE.WebGLRenderer({ canvas: container, antialias: true });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+
+      // 4. OrbitControls
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.maxDistance = 15;
+      controls.minDistance = 3;
+      controls.target.set(0, 0, 0);
+
+      // 5. Lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+      scene.add(ambientLight);
+
+      const mainLight = new THREE.DirectionalLight(0xffffff, 0.9);
+      mainLight.position.set(6, 10, 8);
+      scene.add(mainLight);
+
+      const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.5);
+      rimLight.position.set(-6, -4, -6);
+      scene.add(rimLight);
+
+      // 6. Build Anatomical Model
+      kneeGroup = new THREE.Group();
+      scene.add(kneeGroup);
+
+      buildBones();
+      buildMenisci();
+      buildLigaments();
+      buildSoftTissues();
+
+      // Hide loading overlay
+      const loader = document.getElementById('canvasLoader');
+      if (loader) loader.style.display = 'none';
+
+      // Window resize handler
+      window.addEventListener('resize', onWindowResize);
+
+      // Apply initial findings highlight
+      setViewerMode('findings');
+
+      // Start animation loop
+      animate();
+    }
+
+    // Anatomical Bones Construction
+    function buildBones() {
+      const boneMat = new THREE.MeshStandardMaterial({
+        color: 0xedebe6,
+        roughness: 0.35,
+        metalness: 0.05,
+      });
+
+      // Femur (Thigh bone) - Upper shaft & double condyles
+      const femurGroup = new THREE.Group();
+      
+      // Shaft
+      const shaftGeo = new THREE.CylinderGeometry(0.7, 0.85, 3.2, 32);
+      const shaft = new THREE.Mesh(shaftGeo, boneMat);
+      shaft.position.y = 2.4;
+      femurGroup.add(shaft);
+
+      // Medial Condyle
+      const medCondGeo = new THREE.SphereGeometry(0.82, 32, 24);
+      medCondGeo.scale(1.1, 0.8, 1.3);
+      const medCond = new THREE.Mesh(medCondGeo, boneMat);
+      medCond.position.set(-0.75, 0.9, 0);
+      femurGroup.add(medCond);
+
+      // Lateral Condyle
+      const latCondGeo = new THREE.SphereGeometry(0.78, 32, 24);
+      latCondGeo.scale(1.05, 0.8, 1.25);
+      const latCond = new THREE.Mesh(latCondGeo, boneMat);
+      latCond.position.set(0.75, 0.9, 0);
+      femurGroup.add(latCond);
+
+      // Femoral Trochlear Groove (where patella slides)
+      const trochleaGeo = new THREE.BoxGeometry(0.5, 1.2, 0.2);
+      const trochlea = new THREE.Mesh(trochleaGeo, boneMat);
+      trochlea.position.set(0, 1.1, 0.8);
+      femurGroup.add(trochlea);
+
+      femurMesh = femurGroup;
+      kneeGroup.add(femurMesh);
+
+      // Tibia (Shin bone) - Lower plateau & shaft
+      const tibiaGroup = new THREE.Group();
+      
+      // Tibial Plateau (Flat shelf)
+      const platGeo = new THREE.CylinderGeometry(1.6, 1.4, 0.6, 32);
+      platGeo.scale(1.2, 1, 1);
+      const plateau = new THREE.Mesh(platGeo, boneMat);
+      plateau.position.y = -0.6;
+      tibiaGroup.add(plateau);
+
+      // Tibia Shaft
+      const tibShaftGeo = new THREE.CylinderGeometry(0.8, 0.65, 3.2, 32);
+      const tibShaft = new THREE.Mesh(tibShaftGeo, boneMat);
+      tibShaft.position.set(0, -2.4, 0);
+      tibiaGroup.add(tibShaft);
+
+      // Fibula (Outer thin bone)
+      const fibMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.4 });
+      const fibHeadGeo = new THREE.SphereGeometry(0.35, 16, 16);
+      const fibHead = new THREE.Mesh(fibHeadGeo, fibMat);
+      fibHead.position.set(1.5, -0.9, -0.2);
+      tibiaGroup.add(fibHead);
+
+      const fibShaftGeo = new THREE.CylinderGeometry(0.2, 0.18, 2.6, 16);
+      const fibShaft = new THREE.Mesh(fibShaftGeo, fibMat);
+      fibShaft.position.set(1.5, -2.3, -0.2);
+      tibiaGroup.add(fibShaft);
+
+      tibiaMesh = tibiaGroup;
+      kneeGroup.add(tibiaMesh);
+
+      // Patella (Kneecap)
+      const patellaGeo = new THREE.SphereGeometry(0.55, 24, 24);
+      patellaGeo.scale(1.1, 1.25, 0.4);
+      patellaMesh = new THREE.Mesh(patellaGeo, boneMat);
+      patellaMesh.position.set(0, 1.1, 1.2);
+      kneeGroup.add(patellaMesh);
+    }
+
+    // Menisci Construction (Medial & Lateral Cushions)
+    function buildMenisci() {
+      // Healthy cartilage material
+      const normalCartilageMat = new THREE.MeshStandardMaterial({
+        color: 0x6ee7b7, // Healthy emerald green
+        roughness: 0.2,
+        metalness: 0.1,
+      });
+
+      // Medial Meniscus (C-Shaped inner cushion)
+      // Represented by a curved torus segment on tibial plateau
+      const medMenGeo = new THREE.TorusGeometry(0.88, 0.22, 16, 32, Math.PI * 1.05);
+      medMenGeo.rotateX(Math.PI / 2);
+      medMenGeo.rotateZ(Math.PI / 2);
+      medialMeniscus = new THREE.Mesh(medMenGeo, normalCartilageMat.clone());
+      medialMeniscus.position.set(-0.65, -0.25, 0);
+      kneeGroup.add(medialMeniscus);
+
+      // Horizontal Tear Mesh (Split indicator on medial posterior horn)
+      const tearGeo = new THREE.BoxGeometry(0.45, 0.08, 0.4);
+      const tearMat = new THREE.MeshStandardMaterial({
+        color: 0xef4444, // Red tear line
+        emissive: 0xb91c1c,
+        emissiveIntensity: 0.8,
+        roughness: 0.1
+      });
+      tearHighlight = new THREE.Mesh(tearGeo, tearMat);
+      tearHighlight.position.set(-0.85, -0.25, -0.3); // In posterior horn
+      kneeGroup.add(tearHighlight);
+
+      // Lateral Meniscus (Outer cushion - Intact & Healthy)
+      const latMenGeo = new THREE.TorusGeometry(0.75, 0.2, 16, 32, Math.PI * 1.15);
+      latMenGeo.rotateX(Math.PI / 2);
+      latMenGeo.rotateZ(-Math.PI / 2);
+      lateralMeniscus = new THREE.Mesh(latMenGeo, normalCartilageMat);
+      lateralMeniscus.position.set(0.65, -0.25, 0);
+      kneeGroup.add(lateralMeniscus);
+    }
+
+    // Ligaments Construction
+    function buildLigaments() {
+      const ligMat = new THREE.MeshStandardMaterial({
+        color: 0xdbeafe,
+        roughness: 0.3
+      });
+
+      // MCL (Medial Collateral Ligament - Inner band)
+      const mclGeo = new THREE.CylinderGeometry(0.14, 0.16, 2.4, 16);
+      mclGeo.scale(0.6, 1, 1.2);
+      mclMesh = new THREE.Mesh(mclGeo, ligMat.clone());
+      mclMesh.position.set(-1.42, 0.15, 0);
+      kneeGroup.add(mclMesh);
+
+      // LCL (Lateral Collateral Ligament - Outer cord)
+      const lclGeo = new THREE.CylinderGeometry(0.12, 0.12, 2.2, 16);
+      lclMesh = new THREE.Mesh(lclGeo, ligMat);
+      lclMesh.position.set(1.45, 0.1, -0.1);
+      lclMesh.rotation.z = -0.15;
+      kneeGroup.add(lclMesh);
+
+      // Cruciates: ACL & PCL (Internal stabilizing cords)
+      const aclGeo = new THREE.CylinderGeometry(0.12, 0.12, 1.4, 16);
+      aclMesh = new THREE.Mesh(aclGeo, new THREE.MeshStandardMaterial({ color: 0x93c5fd }));
+      aclMesh.position.set(0, 0.3, 0);
+      aclMesh.rotation.set(0.4, 0, -0.5);
+      kneeGroup.add(aclMesh);
+
+      // Patellar Tendon (Kneecap to Shin)
+      const patTendonGeo = new THREE.CylinderGeometry(0.2, 0.24, 1.3, 16);
+      patTendonGeo.scale(1.4, 1, 0.5);
+      const patTendon = new THREE.Mesh(patTendonGeo, ligMat);
+      patTendon.position.set(0, 0.15, 1.05);
+      kneeGroup.add(patTendon);
+    }
+
+    // Soft Tissues (Hoffa's Fat Pad & Prepatellar Bursa)
+    function buildSoftTissues() {
+      // Hoffa's Infrapatellar Fat Pad (Behind & under patellar tendon)
+      const fatGeo = new THREE.SphereGeometry(0.4, 20, 20);
+      fatGeo.scale(1.2, 0.8, 1);
+      hoffaFatPad = new THREE.Mesh(fatGeo, new THREE.MeshStandardMaterial({
+        color: 0xfef08a,
+        roughness: 0.5,
+        transparent: true,
+        opacity: 0.85
+      }));
+      hoffaFatPad.position.set(0, 0.2, 0.7);
+      kneeGroup.add(hoffaFatPad);
+
+      // Prepatellar Bursa (In front of patella)
+      const bursaGeo = new THREE.SphereGeometry(0.35, 20, 20);
+      bursaGeo.scale(1.1, 1.2, 0.35);
+      prepatellarBursa = new THREE.Mesh(bursaGeo, new THREE.MeshStandardMaterial({
+        color: 0x38bdf8,
+        transparent: true,
+        opacity: 0.5
+      }));
+      prepatellarBursa.position.set(0, 1.1, 1.48);
+      kneeGroup.add(prepatellarBursa);
+
+      // Chondrolysis Wear Zone (Beside patella)
+      const chGeo = new THREE.SphereGeometry(0.25, 16, 16);
+      chGeo.scale(0.5, 1.2, 0.3);
+      chondrolysisHighlight = new THREE.Mesh(chGeo, new THREE.MeshStandardMaterial({
+        color: 0xf97316,
+        emissive: 0xc2410c,
+        emissiveIntensity: 0.7
+      }));
+      chondrolysisHighlight.position.set(-0.55, 1.1, 1.1);
+      kneeGroup.add(chondrolysisHighlight);
+    }
+
+    // Toggle 3D Modes: Healthy vs Rekha's Findings
+    function setViewerMode(mode) {
+      currentMode = mode;
+      const btnHealthy = document.getElementById('btnHealthy');
+      const btnFindings = document.getElementById('btnFindings');
+      const badge = document.getElementById('viewerBadge');
+
+      if (mode === 'healthy') {
+        // Style buttons
+        btnHealthy.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white shadow-md transition flex items-center gap-1.5';
+        btnHealthy.innerHTML = 'Healthy Knee (Reference)';
+        btnFindings.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition';
+        btnFindings.innerHTML = "Rekha's MRI Highlights";
+
+        badge.className = 'bg-emerald-500/90 text-slate-900 font-bold text-xs px-3 py-1.5 rounded-xl shadow-lg backdrop-blur-md';
+        badge.innerText = 'Showing: Healthy Normal Knee (All structures intact & green)';
+
+        // 3D Colors: Healthy
+        medialMeniscus.material.color.setHex(0x34d399); // Smooth green
+        tearHighlight.visible = false;
+        chondrolysisHighlight.visible = false;
+
+        hoffaFatPad.material.color.setHex(0xfef08a); // Pale yellow
+        hoffaFatPad.scale.set(1.2, 0.8, 1);
+
+        prepatellarBursa.material.color.setHex(0x38bdf8); // Light thin blue
+        prepatellarBursa.scale.set(0.9, 0.9, 0.2);
+        prepatellarBursa.material.opacity = 0.3;
+
+        mclMesh.material.color.setHex(0xdbeafe); // Calm ligament
+      } else {
+        // Rekha's Findings
+        btnFindings.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow-md transition flex items-center gap-1.5';
+        btnFindings.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> Rekha\'s MRI Highlights';
+        btnHealthy.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition';
+        btnHealthy.innerHTML = 'Healthy Knee';
+
+        badge.className = 'bg-amber-500/90 text-slate-900 font-bold text-xs px-3 py-1.5 rounded-xl shadow-lg backdrop-blur-md';
+        badge.innerText = "Showing: Rekha's MRI Issues (Meniscus tear, cartilage wear & bursitis highlighted)";
+
+        // 3D Colors: Highlight Issues
+        medialMeniscus.material.color.setHex(0xfbbf24); // Amber warn
+        tearHighlight.visible = true; // Red horizontal tear line
+        chondrolysisHighlight.visible = true; // Orange parapatellar wear
+
+        hoffaFatPad.material.color.setHex(0xf472b6); // Irritated pink/purple
+        hoffaFatPad.scale.set(1.4, 1.0, 1.2); // Mild oedema swelling
+
+        prepatellarBursa.material.color.setHex(0xf43f5e); // Reddish swollen bursa
+        prepatellarBursa.scale.set(1.2, 1.4, 0.5); // Distended bursitis
+        prepatellarBursa.material.opacity = 0.7;
+
+        mclMesh.material.color.setHex(0x93c5fd); // Low-grade mild sprain
+      }
+    }
+
+    // Camera Quick Focus Positions
+    function focusStructure(type) {
+      // Smoothly rotate knee or move camera
+      if (type === 'front') {
+        // Focus on Patella, Bursa & Hoffa's pad
+        gsapAnimateCamera(0, 1.2, 5.5, 0, 0.8, 0);
+      } else if (type === 'medial') {
+        // Focus on inner side (Meniscus tear & MCL)
+        gsapAnimateCamera(-5.5, 0.3, 1.5, -0.7, 0, 0);
+      } else if (type === 'lateral') {
+        // Focus on outer healthy side
+        gsapAnimateCamera(5.5, 0.3, 1.5, 0.7, 0, 0);
+      }
+    }
+
+    function reset3DCamera() {
+      gsapAnimateCamera(4, 2, 7, 0, 0, 0);
+    }
+
+    function gsapAnimateCamera(x, y, z, tx, ty, tz) {
+      camera.position.set(x, y, z);
+      controls.target.set(tx, ty, tz);
+      controls.update();
+    }
+
+    function onWindowResize() {
+      const container = document.getElementById('kneeCanvas');
+      if (!container || !renderer || !camera) return;
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    }
+
+    // Animation Render Loop
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // Subtle breathing pulse on tear and inflammation when in findings mode
+      if (currentMode === 'findings') {
+        const time = Date.now() * 0.003;
+        if (tearHighlight) {
+          tearHighlight.material.emissiveIntensity = 0.5 + Math.sin(time * 3) * 0.4;
+        }
+        if (chondrolysisHighlight) {
+          chondrolysisHighlight.material.emissiveIntensity = 0.5 + Math.cos(time * 3) * 0.4;
+        }
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    // ----------------------------------------------------
+    // APP INTERACTION (Checklist & Filtering)
+    // ----------------------------------------------------
     function filterIssues(category) {
       const items = document.querySelectorAll('.issue-item');
       const buttons = document.querySelectorAll('.issue-filter-btn');
@@ -925,6 +1625,7 @@
 
     function renderChecklist() {
       const container = document.getElementById('checklist');
+      if (!container) return;
       container.innerHTML = '';
 
       exercisesList.forEach(item => {
@@ -953,9 +1654,10 @@
       renderChecklist();
     }
 
-    // Initialize checklist on load
+    // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
       renderChecklist();
+      init3DViewer();
     });
   </script>
 </body>
